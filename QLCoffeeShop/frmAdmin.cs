@@ -1024,7 +1024,7 @@ namespace QLCoffeeShop
         Thang = thang,
         Nam = DateTime.Now.Year,
         Ca = soCa,
-        Tong = tongLuong, // ✅ Lưu tổng lương vào DTO
+        Tong = tongLuong,
         GhiChu = txtGhiChu.Text,
         TinhTrang = 0,
         NgayTao = DateTime.Now
@@ -1032,7 +1032,7 @@ namespace QLCoffeeShop
 
     if (tinhLuongBLL.ThemLuong(luongMoi))
     {
-        // Cập nhật UI
+       
         ListViewItem item = new ListViewItem(new string[]
         {
             tinhLuongBLL.GetTenNhanVien(maTaiKhoan),
@@ -1042,7 +1042,7 @@ namespace QLCoffeeShop
             thang.ToString(),
             DateTime.Now.Year.ToString(),
             soCa.ToString(),
-            tongLuong.ToString("N0"), // ✅ Hiển thị tổng lương
+            tongLuong.ToString("N0"),
             "Chưa thanh toán"
         });
         lstLuongNhanVien.Items.Add(item);
@@ -1065,7 +1065,7 @@ namespace QLCoffeeShop
                 string tenNhanVien = tinhLuongBLL.GetTenNhanVien(luong.MaTaiKhoan);
                 if (!string.IsNullOrEmpty(keyword) && !tenNhanVien.ToLower().Contains(keyword))
                 {
-                    continue; // Bỏ qua nhân viên không khớp từ khóa tìm kiếm
+                    continue;
                 }
 
                 string sdt = tinhLuongBLL.GetSDTNhanVien(luong.MaTaiKhoan);
@@ -1125,20 +1125,15 @@ namespace QLCoffeeShop
         #region Báo cáo doanh thu
         private void _loadComboBox()
         {
-            // Tháng từ 1 đến 12
             for (int i = 1; i <= 12; i++)
             {
                 cbxMonth.Items.Add(i);
             }
-
-            // Năm từ 2020 đến năm hiện tại
             int namHienTai = DateTime.Now.Year;
             for (int i = 2020; i <= namHienTai; i++)
             {
                 cbxYears.Items.Add(i);
             }
-
-            // Chọn mặc định tháng hiện tại và năm hiện tại
             cbxMonth.SelectedItem = DateTime.Now.Month;
             cbxYears.SelectedItem = namHienTai;
         }
@@ -1150,11 +1145,10 @@ namespace QLCoffeeShop
             List<BaoCaoDTO> reports = BaoCaoBLL.Instance.LoadBaoCao(thang, nam);
             lstDoanhThu.Items.Clear();
             float sumDoanhThu = 0;
-            int stt = 1; // Bắt đầu STT từ 1
-
+            int stt = 1; 
             foreach (BaoCaoDTO report in reports)
             {
-                ListViewItem item = new ListViewItem(stt.ToString()); // Cột STT
+                ListViewItem item = new ListViewItem(stt.ToString()); 
                 item.SubItems.Add(report.Thang.ToString());
                 item.SubItems.Add(report.Nam.ToString());
                 item.SubItems.Add(report.TongTienBan.ToString());
@@ -1163,7 +1157,7 @@ namespace QLCoffeeShop
                 item.SubItems.Add(report.TongDoanhThuThang.ToString());
                 lstDoanhThu.Items.Add(item);
                 sumDoanhThu += report.TongDoanhThuThang;
-                stt++; // Tăng STT cho dòng tiếp theo
+                stt++; 
             }
             txtTongDoanhThu.Text = BaoCaoBLL.Instance.GetTongDoanhThuNam(nam).ToString();
         }
@@ -1175,7 +1169,6 @@ namespace QLCoffeeShop
             cbxMonth.SelectedItem = DateTime.Now.Month;
             cbxYears.SelectedItem = DateTime.Now.Year;
         }
-
         #endregion
 
         private void btnThoatAdmin_Click(object sender, EventArgs e)

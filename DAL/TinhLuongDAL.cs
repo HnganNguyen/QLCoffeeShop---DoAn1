@@ -44,12 +44,6 @@ namespace DAL
             }) > 0;
         }
 
-        public bool UpdateTinhTrang(int maLuong, int tinhTrang)
-        {
-            string query = "UPDATE TINHLUONGNHANVIEN SET TINHTRANG = @TinhTrang WHERE MALUONG = @MaLuong";
-            return DataProvider.Instance.ExcuteNonQuery(query, new object[] { tinhTrang, maLuong }) > 0;
-        }
-
         public string LayTenNhanVien(int maTaiKhoan)
         {
             string query = "SELECT TEN FROM TAIKHOAN WHERE MATAIKHOAN = @MaTaiKhoan";

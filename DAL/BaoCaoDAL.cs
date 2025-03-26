@@ -53,8 +53,6 @@ namespace DAL
         AS TongDoanhThuNam
         FROM HOADON 
         WHERE YEAR(NGAYTAO) = @Nam";
-
-            // 🟢 Cách truyền tham số đúng
             DataTable data = DataProvider.Instance.ExcuteQuery(query, new object[] { nam });
 
             if (data.Rows.Count > 0 && data.Rows[0][0] != DBNull.Value)
@@ -63,7 +61,6 @@ namespace DAL
             }
             return 0;
         }
-
 
     }
 }

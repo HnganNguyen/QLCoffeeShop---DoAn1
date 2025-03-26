@@ -32,7 +32,7 @@ namespace BLL
 
         public float GetTongDoanhThuNam(int nam)
         {
-            BaoCaoDAL dal = new BaoCaoDAL(); // ✅ Tạo đối tượng mới
+            BaoCaoDAL dal = new BaoCaoDAL(); 
             return dal.GetTongDoanhThuNam(nam);
         }
     }
