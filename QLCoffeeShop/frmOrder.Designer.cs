@@ -31,10 +31,10 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmOrder));
             this.label23 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.flpTable = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnXoaSp = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.lblNgayHienTai = new System.Windows.Forms.Label();
@@ -53,6 +53,7 @@
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnLamMoisp = new System.Windows.Forms.Button();
             this.btnTimKiem = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.txtTuKhoa = new System.Windows.Forms.TextBox();
@@ -64,6 +65,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.btnLamMoi = new System.Windows.Forms.Button();
+            this.btnThoatoder = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -76,29 +78,13 @@
             this.label23.Dock = System.Windows.Forms.DockStyle.Top;
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.label23.ForeColor = System.Drawing.Color.White;
+            this.label23.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label23.Location = new System.Drawing.Point(0, 0);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(1568, 65);
             this.label23.TabIndex = 16;
             this.label23.Text = "ORDER ";
             this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(1511, 0);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(46, 47);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "x";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // groupBox1
             // 
@@ -130,6 +116,8 @@
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.BackColor = System.Drawing.Color.White;
+            this.groupBox3.Controls.Add(this.btnXoaSp);
             this.groupBox3.Controls.Add(this.panel3);
             this.groupBox3.Controls.Add(this.lstBill);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
@@ -139,6 +127,20 @@
             this.groupBox3.TabIndex = 23;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Danh mục đang được order:";
+            // 
+            // btnXoaSp
+            // 
+            this.btnXoaSp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
+            this.btnXoaSp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnXoaSp.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btnXoaSp.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnXoaSp.Location = new System.Drawing.Point(22, 441);
+            this.btnXoaSp.Name = "btnXoaSp";
+            this.btnXoaSp.Size = new System.Drawing.Size(134, 37);
+            this.btnXoaSp.TabIndex = 26;
+            this.btnXoaSp.Text = "Xóa sản phẩm";
+            this.btnXoaSp.UseVisualStyleBackColor = false;
+            this.btnXoaSp.Click += new System.EventHandler(this.btnXoaSp_Click);
             // 
             // panel3
             // 
@@ -155,9 +157,9 @@
             this.panel3.Controls.Add(this.label3);
             this.panel3.Controls.Add(this.btnThanhToan);
             this.panel3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.panel3.Location = new System.Drawing.Point(22, 474);
+            this.panel3.Location = new System.Drawing.Point(22, 484);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(500, 202);
+            this.panel3.Size = new System.Drawing.Size(500, 192);
             this.panel3.TabIndex = 22;
             // 
             // label4
@@ -275,9 +277,9 @@
             this.lstBill.FullRowSelect = true;
             this.lstBill.GridLines = true;
             this.lstBill.HideSelection = false;
-            this.lstBill.Location = new System.Drawing.Point(22, 50);
+            this.lstBill.Location = new System.Drawing.Point(22, 29);
             this.lstBill.Name = "lstBill";
-            this.lstBill.Size = new System.Drawing.Size(500, 418);
+            this.lstBill.Size = new System.Drawing.Size(500, 409);
             this.lstBill.TabIndex = 1;
             this.lstBill.UseCompatibleStateImageBehavior = false;
             this.lstBill.View = System.Windows.Forms.View.Details;
@@ -313,6 +315,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox2.Controls.Add(this.btnLamMoisp);
             this.groupBox2.Controls.Add(this.btnTimKiem);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.txtTuKhoa);
@@ -327,17 +331,32 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Thông tin sản phẩm";
             // 
+            // btnLamMoisp
+            // 
+            this.btnLamMoisp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
+            this.btnLamMoisp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLamMoisp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btnLamMoisp.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnLamMoisp.Location = new System.Drawing.Point(393, 82);
+            this.btnLamMoisp.Name = "btnLamMoisp";
+            this.btnLamMoisp.Size = new System.Drawing.Size(80, 28);
+            this.btnLamMoisp.TabIndex = 30;
+            this.btnLamMoisp.Text = "Làm Mới";
+            this.btnLamMoisp.UseVisualStyleBackColor = false;
+            this.btnLamMoisp.Click += new System.EventHandler(this.btnLamMoisp_Click);
+            // 
             // btnTimKiem
             // 
             this.btnTimKiem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
             this.btnTimKiem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTimKiem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnTimKiem.Location = new System.Drawing.Point(341, 82);
+            this.btnTimKiem.Location = new System.Drawing.Point(331, 82);
             this.btnTimKiem.Name = "btnTimKiem";
             this.btnTimKiem.Size = new System.Drawing.Size(62, 28);
             this.btnTimKiem.TabIndex = 28;
             this.btnTimKiem.Text = "Tìm";
             this.btnTimKiem.UseVisualStyleBackColor = false;
+            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
             // 
             // label6
             // 
@@ -369,6 +388,7 @@
             // 
             this.lstSanPham.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.lstSanPham.BackColor = System.Drawing.Color.White;
             this.lstSanPham.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader6,
             this.columnHeader7,
@@ -427,17 +447,36 @@
             this.btnLamMoi.UseVisualStyleBackColor = false;
             this.btnLamMoi.Click += new System.EventHandler(this.btnLamMoi_Click);
             // 
+            // btnThoatoder
+            // 
+            this.btnThoatoder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnThoatoder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
+            this.btnThoatoder.FlatAppearance.BorderSize = 0;
+            this.btnThoatoder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnThoatoder.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnThoatoder.ForeColor = System.Drawing.Color.White;
+            this.btnThoatoder.Location = new System.Drawing.Point(1511, 13);
+            this.btnThoatoder.Margin = new System.Windows.Forms.Padding(2);
+            this.btnThoatoder.Name = "btnThoatoder";
+            this.btnThoatoder.Size = new System.Drawing.Size(46, 40);
+            this.btnThoatoder.TabIndex = 61;
+            this.btnThoatoder.Text = "x";
+            this.btnThoatoder.UseVisualStyleBackColor = false;
+            this.btnThoatoder.Click += new System.EventHandler(this.btnThoatoder_Click);
+            // 
             // frmOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Snow;
             this.ClientSize = new System.Drawing.Size(1568, 836);
+            this.Controls.Add(this.btnThoatoder);
             this.Controls.Add(this.btnLamMoi);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.label23);
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "frmOrder";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -456,7 +495,6 @@
         #endregion
 
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -489,5 +527,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button btnLamMoi;
+        private System.Windows.Forms.Button btnXoaSp;
+        private System.Windows.Forms.Button btnLamMoisp;
+        private System.Windows.Forms.Button btnThoatoder;
     }
 }

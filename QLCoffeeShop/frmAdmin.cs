@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using BLL;
 using DAL;
 using DTO;
+using QLCoffeeShop;
 
 namespace QLCoffeeShop
 {
@@ -24,10 +25,15 @@ namespace QLCoffeeShop
             _loadTypeProduct();
             _filterProduct();
             _showIngredient();
+            _loadTaiKhoan();
+            _loadcbChucVu();
+            _showDanhSachNhanVien();
+            _loadDanhSachTinhLuong();
+            _loadComboBox();
         }
 
 
-
+        #region liên kết tabcontrl và button
         private void btnHoaDon_Click(object sender, EventArgs e)
         {
             HandleButtonClick(sender, "tabPage1");
@@ -52,6 +58,8 @@ namespace QLCoffeeShop
             HandleButtonClick(sender, "tabPage5");
         }
 
+        private TinhLuongBLL tinhLuongBLL = new TinhLuongBLL();
+        //private BaoCaoBLL bllDoanhThu = new BaoCaoBLL();
 
         private void HandleButtonClick(object sender, string tabPageName)
         {
@@ -79,6 +87,7 @@ namespace QLCoffeeShop
                 }
             }
         }
+        #endregion
 
         #region quản lý bàn
         private void _showTable()
@@ -100,8 +109,6 @@ namespace QLCoffeeShop
                 lstTable.Items.Add(listitem);
             }
         }
-        #endregion
-
         private void btnThemBan_Click(object sender, EventArgs e)
         {
             try
@@ -192,7 +199,8 @@ namespace QLCoffeeShop
                 txtMaBan.Text = "B00" + sp.ID;
             }
         }
-        
+        #endregion
+
         #region Quản lý loại sản phẩm
         private void _showTypeProduct()
         {
@@ -202,12 +210,12 @@ namespace QLCoffeeShop
             {
                 ListViewItem listItem = new ListViewItem
                 {
-                    Text = (i + 1).ToString() 
+                    Text = (i + 1).ToString()
                 };
-                listItem.SubItems.Add(typeList[i].ID.ToString()); 
-                listItem.SubItems.Add(typeList[i].Nametype); 
-                listItem.SubItems.Add(typeList[i].Status == 1 ? "Đang hoạt động" : "Khóa"); 
-                listItem.Tag = typeList[i]; 
+                listItem.SubItems.Add(typeList[i].ID.ToString());
+                listItem.SubItems.Add(typeList[i].Nametype);
+                listItem.SubItems.Add(typeList[i].Status == 1 ? "Đang hoạt động" : "Khóa");
+                listItem.Tag = typeList[i];
                 lstTypeProduct.Items.Add(listItem);
             }
         }
@@ -356,13 +364,13 @@ namespace QLCoffeeShop
             foreach (NguyenLieuDTO nl in list)
             {
                 ListViewItem item = new ListViewItem(stt.ToString());
-                item.SubItems.Add(nl.Ma.ToString());                 
-                item.SubItems.Add(nl.Ten);                           
+                item.SubItems.Add(nl.Ma.ToString());
+                item.SubItems.Add(nl.Ten);
                 item.SubItems.Add(nl.NgayTao.ToString("dd/MM/yyyy"));
-                item.SubItems.Add(nl.GiaGoc.ToString());             
-                item.SubItems.Add(nl.GhiChu);                        
+                item.SubItems.Add(nl.GiaGoc.ToString());
+                item.SubItems.Add(nl.GhiChu);
                 lstNguyenLieu.Items.Add(item);
-                stt++; 
+                stt++;
             }
             _calculateTotalPrice(); // tính tổng
         }
@@ -379,13 +387,16 @@ namespace QLCoffeeShop
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
             NguyenLieuDTO nl = new NguyenLieuDTO
             {
                 Ten = txtTenNL.Text,
                 NgayTao = DateTime.Now,
                 GiaGoc = double.Parse(txtGiaNL.Text),
-                GhiChu = txtGhiChuNL.Text
+                GhiChu = txtGhiChuNL.Text,
+                MaTaiKhoan = Program.CurrentUserID // ⭐ Lấy mã tài khoản của người đăng nhập
             };
+
             NguyenLieuBLL.InsertNguyenLieu(nl);
             _showIngredient();
             _clearIngredientForm();
@@ -398,7 +409,7 @@ namespace QLCoffeeShop
             {
                 int ma = int.Parse(lstNguyenLieu.SelectedItems[0].SubItems[1].Text);
                 DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn xóa nguyên liệu này?",
-                                                      "Xác nhận xóa",MessageBoxButtons.YesNo,
+                                                      "Xác nhận xóa", MessageBoxButtons.YesNo,
                                                       MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                 {
@@ -415,10 +426,10 @@ namespace QLCoffeeShop
             if (lstNguyenLieu.SelectedItems.Count > 0)
             {
                 ListViewItem item = lstNguyenLieu.SelectedItems[0];
-                txtMaNL.Text = item.SubItems[1].Text; 
-                txtTenNL.Text = item.SubItems[2].Text; 
-                txtGiaNL.Text = item.SubItems[4].Text; 
-                txtGhiChuNL.Text = item.SubItems[5].Text; 
+                txtMaNL.Text = item.SubItems[1].Text;
+                txtTenNL.Text = item.SubItems[2].Text;
+                txtGiaNL.Text = item.SubItems[4].Text;
+                txtGhiChuNL.Text = item.SubItems[5].Text;
                 btnXoaNL.Enabled = true;
             }
             else
@@ -441,7 +452,7 @@ namespace QLCoffeeShop
             double total = 0;
             foreach (ListViewItem item in lstNguyenLieu.Items)
             {
-                if (double.TryParse(item.SubItems[4].Text, out double price)) 
+                if (double.TryParse(item.SubItems[4].Text, out double price))
                 {
                     total += price;
                 }
@@ -470,17 +481,17 @@ namespace QLCoffeeShop
         {
             lstProduct.Items.Clear();
             List<ProductDTO> listProduct = ProductBLL.GetAllListProduct();
-            int stt = 1; 
+            int stt = 1;
             foreach (ProductDTO product in listProduct)
             {
-                ListViewItem item = new ListViewItem(stt.ToString()); 
+                ListViewItem item = new ListViewItem(stt.ToString());
                 item.SubItems.Add(product.ID.ToString());
-                item.SubItems.Add(product.NameProducts); 
-                item.SubItems.Add(product.SalePrice.ToString()); 
-                item.SubItems.Add(product.Status == 1 ? "Đang hoạt động" : "Ngừng bán"); 
-                item.SubItems.Add(TypeProductBLL.GetTypeNameByID(product.IDTypeProduct)); 
+                item.SubItems.Add(product.NameProducts);
+                item.SubItems.Add(product.SalePrice.ToString());
+                item.SubItems.Add(product.Status == 1 ? "Đang hoạt động" : "Ngừng bán");
+                item.SubItems.Add(TypeProductBLL.GetTypeNameByID(product.IDTypeProduct));
                 lstProduct.Items.Add(item);
-                stt++; 
+                stt++;
             }
         }
 
@@ -522,9 +533,9 @@ namespace QLCoffeeShop
 
         private void btnEditProduct_Click(object sender, EventArgs e)
         {
-            if (lstProduct.SelectedItems.Count == 0) 
+            if (lstProduct.SelectedItems.Count == 0)
                 return;
-            int id = int.Parse(lstProduct.SelectedItems[0].SubItems[1].Text); 
+            int id = int.Parse(lstProduct.SelectedItems[0].SubItems[1].Text);
             string name = txtTenSP.Text;
             string priceText = txtDonGia.Text.Replace(",", "").Trim();
             if (!double.TryParse(priceText, out double price))
@@ -555,10 +566,10 @@ namespace QLCoffeeShop
             if (lstProduct.SelectedItems.Count == 0)
             {
                 MessageBox.Show("Vui lòng chọn sản phẩm cần xóa!");
-                 return;
+                return;
             }
 
-            if (!int.TryParse(lstProduct.SelectedItems[0].SubItems[1].Text, out int id)) 
+            if (!int.TryParse(lstProduct.SelectedItems[0].SubItems[1].Text, out int id))
             {
                 MessageBox.Show("Lỗi: ID sản phẩm không hợp lệ!");
                 return;
@@ -580,8 +591,8 @@ namespace QLCoffeeShop
         {
             if (lstProduct.SelectedItems.Count == 0) return;
             ListViewItem item = lstProduct.SelectedItems[0];
-            txtMaSP.Text = item.SubItems[1].Text; 
-            txtTenSP.Text = item.SubItems[2].Text; 
+            txtMaSP.Text = item.SubItems[1].Text;
+            txtTenSP.Text = item.SubItems[2].Text;
 
             if (!double.TryParse(item.SubItems[3].Text.Replace(",", "").Trim(), out double price))
                 txtDonGia.Text = "0";
@@ -605,8 +616,8 @@ namespace QLCoffeeShop
             txtMaSP.Clear();
             txtTenSP.Clear();
             txtDonGia.Clear();
-            cbLoaiSP.SelectedIndex = -1; 
-            radHien.Checked = true; 
+            cbLoaiSP.SelectedIndex = -1;
+            radHien.Checked = true;
         }
 
         private void btnWatchProduct_Click(object sender, EventArgs e)
@@ -685,5 +696,496 @@ namespace QLCoffeeShop
         }
         #endregion
 
+        #region Quản lý tài khoản
+        private void _loadTaiKhoan()
+        {
+            lstAccount.Items.Clear();
+            List<TaiKhoanDTO> listTaiKhoan = TaiKhoanBLL.GetAllTaiKhoan();
+            for (int i = 0; i < listTaiKhoan.Count; i++)
+            {
+                ListViewItem listitem = new ListViewItem
+                {
+                    Text = "#" + (i + 1).ToString()
+                };
+                listitem.SubItems.Add(listTaiKhoan[i].ID.ToString());
+                listitem.SubItems.Add(listTaiKhoan[i].TenTK.ToString());
+                listitem.SubItems.Add(listTaiKhoan[i].SDT.ToString());
+                listitem.SubItems.Add(listTaiKhoan[i].DiaChi.ToString());
+                listitem.SubItems.Add(listTaiKhoan[i].Password.ToString());
+                listitem.SubItems.Add(listTaiKhoan[i].CCCD.ToString());
+                listitem.SubItems.Add(Position.GetName(listTaiKhoan[i].Quyen));
+                listitem.SubItems.Add(listTaiKhoan[i].LuongByCa.ToString("###,### VNĐ"));
+                if (listTaiKhoan[i].TrangThai == 0)
+                {
+                    listitem.SubItems.Add("Bị khóa");
+                }
+                else
+                    listitem.SubItems.Add("Đã được mở khóa");
+
+                listitem.Tag = listTaiKhoan[i];
+                lstAccount.Items.Add(listitem);
+            }
+        }
+        class ChucVu
+        {
+            public int ID { get; set; }
+
+            public string Name { get; set; }
+        }
+
+        public static class Position
+        {
+            private static Dictionary<int, string> positon = new Dictionary<int, string>();
+
+            public static string GetName(int id)
+            {
+                positon.Clear();
+
+                positon.Add(0, "Quản lý");
+                positon.Add(1, "Nhân Viên Bán Hàng");
+                positon.Add(2, "Đầu bếp");
+                positon.Add(3, "Phụ bếp");
+
+                if (positon.ContainsKey(id))
+                {
+                    return positon[id];
+                }
+
+                return "Not found positon.";
+            }
+        }
+        private void _loadcbChucVu()
+        {
+            List<ChucVu> listChucVu = new List<ChucVu>
+        {
+            new ChucVu(){ ID = 0, Name = Position.GetName(0) },
+            new ChucVu(){ ID = 1, Name = Position.GetName(1) },
+            new ChucVu(){ ID = 2, Name = Position.GetName(2) },
+            new ChucVu(){ ID = 3, Name = Position.GetName(3) }
+        };
+            cbxChucVu.DataSource = listChucVu;
+            cbxChucVu.DisplayMember = "Name";
+            cbxChucVu.ValueMember = "ID";
+            cbxChucVu.SelectedIndex = 0;
+        }
+        private void lstAccount_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lstAccount.SelectedItems.Count == 0) return;
+            ListViewItem selectedItem = lstAccount.SelectedItems[0];
+            TaiKhoanDTO selectedAccount = (TaiKhoanDTO)selectedItem.Tag;
+            txtNameAccount.Text = selectedAccount.ID.ToString();
+            txtHoTen.Text = selectedAccount.TenTK;
+            txtPassword.Text = selectedAccount.Password;
+            txtSDT.Text = selectedAccount.SDT;
+            txtAddress.Text = selectedAccount.DiaChi;
+            txtCMND.Text = selectedAccount.CCCD;
+            cbxChucVu.SelectedValue = selectedAccount.Quyen;
+            txtSalary.Text = selectedAccount.LuongByCa.ToString();
+            radHienAccount.Checked = selectedAccount.TrangThai == 1;
+            radAnAccount.Checked = selectedAccount.TrangThai == 0;
+            btnAddAccount.Enabled = false;
+        }
+
+        private void btnAddAccount_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if 
+
+                    (string.IsNullOrWhiteSpace(txtNameAccount.Text) ||
+                     string.IsNullOrWhiteSpace(txtHoTen.Text) || string.IsNullOrWhiteSpace(txtPassword.Text) ||
+                    string.IsNullOrWhiteSpace(txtSDT.Text) || string.IsNullOrWhiteSpace(txtAddress.Text) ||
+                    string.IsNullOrWhiteSpace(txtCMND.Text) || cbxChucVu.SelectedValue == null)
+                {
+                    MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                TaiKhoanDTO newAccount = new TaiKhoanDTO
+                {
+                    ID = Convert.ToInt32(txtNameAccount.Text),
+                    TenTK = txtHoTen.Text,
+                    Password = txtPassword.Text,
+                    SDT = txtSDT.Text,
+                    DiaChi = txtAddress.Text,
+                    CCCD = txtCMND.Text,
+                    Quyen = Convert.ToInt32(cbxChucVu.SelectedValue),
+                    LuongByCa = Convert.ToDouble(txtSalary.Text)
+                };
+                if (radHienAccount.Checked) // 0 không hoạt động 1: hoạt động//
+                {
+                    newAccount.TrangThai = 1;
+                }
+                else
+                    newAccount.TrangThai = 0;
+                if (TaiKhoanBLL.AddTaiKhoan(newAccount))
+                {
+                    txtNameAccount.Enabled = true;
+                    btnAddAccount.Enabled = true;
+
+                    _loadTaiKhoan();
+                    _deleteTextAccount();
+                    _showDanhSachNhanVien();
+
+                    MessageBox.Show("Thêm tài khoản thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Thêm tài khoản thất bại! Vui lòng thử lại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void btnEditAccount_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtNameAccount.Text) ||
+                     string.IsNullOrWhiteSpace(txtHoTen.Text) || string.IsNullOrWhiteSpace(txtPassword.Text) ||
+                    string.IsNullOrWhiteSpace(txtSDT.Text) || string.IsNullOrWhiteSpace(txtAddress.Text) ||
+                    string.IsNullOrWhiteSpace(txtCMND.Text) || cbxChucVu.SelectedValue == null)
+                {
+                    MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                TaiKhoanDTO updateAccount = new TaiKhoanDTO
+                {
+                    ID = Convert.ToInt32(txtNameAccount.Text),
+                    TenTK = txtHoTen.Text,
+                    Password = txtPassword.Text,
+                    SDT = txtSDT.Text,
+                    DiaChi = txtAddress.Text,
+                    CCCD = txtCMND.Text,
+                    Quyen = Convert.ToInt32(cbxChucVu.SelectedValue),
+                    LuongByCa = Convert.ToDouble(txtSalary.Text)
+                };
+
+                updateAccount.TrangThai = radHienAccount.Checked ? 1 : 0;
+
+                if (TaiKhoanBLL.UpdateTaiKhoan(updateAccount))
+                {
+                    _loadTaiKhoan();
+                    _deleteTextAccount();
+                    _showDanhSachNhanVien();
+                    txtNameAccount.Enabled = true;
+                    btnAddAccount.Enabled = true;
+
+                    MessageBox.Show("Cập nhật tài khoản thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Cập nhật tài khoản thất bại! Vui lòng thử lại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+        private void _deleteTextAccount()
+        {
+            txtNameAccount.Text = "";
+            txtHoTen.Text = "";
+            txtPassword.Text = "";
+            txtSDT.Text = "";
+            txtAddress.Text = "";
+            txtCMND.Text = "";
+            txtSalary.Text = "";
+            radHienAccount.Checked = true;
+        }
+
+        private void btnNewAccount_Click(object sender, EventArgs e)
+        {
+            _deleteTextAccount();
+            txtNameAccount.Enabled = true;
+            btnAddAccount.Enabled = true;
+
+        }
+
+        private void btnDeleteAccount_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (lstAccount.SelectedItems.Count > 0)
+                {
+                    TaiKhoanDTO tk = lstAccount.SelectedItems[0].Tag as TaiKhoanDTO;
+                    DialogResult result = MessageBox.Show($"Bạn có chắc muốn xóa tài khoản người này '{tk.TenTK}' không?",
+                        "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        if (TaiKhoanBLL.DeleteTaiKhoan(tk.ID))
+                        {
+                            btnDeleteAccount.Enabled = false;
+                            _deleteTextAccount();
+                            _loadTaiKhoan();
+                            _showDanhSachNhanVien();
+                            txtNameAccount.Enabled = true;
+                            btnAddAccount.Enabled = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Xóa tài khoản thất bại, vui lòng thử lại!", "Thông báo", MessageBoxButtons.OK);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Vui lòng chọn tài khoản để thực hiện!", "Thông báo", MessageBoxButtons.OK);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void _searchAccount(string keyword)
+        {
+            lstAccount.Items.Clear();
+            List<TaiKhoanDTO> listTaiKhoan = TaiKhoanBLL.SearchTaiKhoanByName(keyword);
+
+            int stt = 1;
+            foreach (TaiKhoanDTO account in listTaiKhoan)
+            {
+                ListViewItem item = new ListViewItem(stt.ToString());
+
+                if (account.ID == 0)
+                {
+                    item.SubItems.Add("Admin");
+                }
+                else
+                {
+                    item.SubItems.Add(account.ID.ToString());
+                }
+
+                item.SubItems.Add(account.TenTK);
+                item.SubItems.Add(account.SDT);
+                item.SubItems.Add(account.DiaChi);
+                item.SubItems.Add(account.Password);
+                item.SubItems.Add(account.CCCD);
+                item.SubItems.Add(Position.GetName(account.Quyen));
+                item.SubItems.Add(account.LuongByCa.ToString("###,### VNĐ"));
+                item.SubItems.Add(account.TrangThai == 1 ? "Đang hoạt động" : "Ngừng hoạt động");
+
+                // 🔹 Gán Tag để tránh lỗi NullReferenceException
+                item.Tag = account;
+
+                lstAccount.Items.Add(item);
+                stt++;
+            }
+        }
+
+        private void btnTim_Click(object sender, EventArgs e)
+        {
+            string keyword = txtTimTK.Text.Trim();
+            _searchAccount(keyword);
+            txtNameAccount.Enabled = false;
+        }
+        private void btnLamMoiTK_Click(object sender, EventArgs e)
+        {
+            _loadTaiKhoan();
+            txtTimTK.Clear();
+            txtNameAccount.Enabled = true;
+            btnAddAccount.Enabled = true;
+        }
+        #endregion
+
+        #region Tính lương
+        private void _showDanhSachNhanVien()
+        {
+            string query = "SELECT MATAIKHOAN, TEN FROM TAIKHOAN";
+            DataTable data = DataProvider.Instance.ExcuteQuery(query);
+            cbxNhanVien.DataSource = data;
+            cbxNhanVien.DisplayMember = "TEN";
+            cbxNhanVien.ValueMember = "MATAIKHOAN";
+        }
+
+        private void btnThemLuong_Click(object sender, EventArgs e)
+        {
+            if (cbxNhanVien.SelectedItem == null || string.IsNullOrWhiteSpace(txtThang.Text) || string.IsNullOrWhiteSpace(txtCa.Text))
+    {
+        MessageBox.Show("Vui lòng nhập đầy đủ thông tin!");
+        return;
+    }
+
+    int maTaiKhoan = Convert.ToInt32(cbxNhanVien.SelectedValue);
+    int thang = Convert.ToInt32(txtThang.Text);
+    int soCa = Convert.ToInt32(txtCa.Text);
+    float luongCoBan = tinhLuongBLL.GetLuongCoBan(maTaiKhoan);
+    float tongLuong = luongCoBan * soCa; // Tính tổng lương dựa trên số ca
+
+    TinhLuongDTO luongMoi = new TinhLuongDTO
+    {
+        MaTaiKhoan = maTaiKhoan,
+        Thang = thang,
+        Nam = DateTime.Now.Year,
+        Ca = soCa,
+        Tong = tongLuong, // ✅ Lưu tổng lương vào DTO
+        GhiChu = txtGhiChu.Text,
+        TinhTrang = 0,
+        NgayTao = DateTime.Now
+    };
+
+    if (tinhLuongBLL.ThemLuong(luongMoi))
+    {
+        // Cập nhật UI
+        ListViewItem item = new ListViewItem(new string[]
+        {
+            tinhLuongBLL.GetTenNhanVien(maTaiKhoan),
+            tinhLuongBLL.GetSDTNhanVien(maTaiKhoan),
+            tinhLuongBLL.GetDiaChiNhanVien(maTaiKhoan),
+            luongCoBan.ToString(),
+            thang.ToString(),
+            DateTime.Now.Year.ToString(),
+            soCa.ToString(),
+            tongLuong.ToString("N0"), // ✅ Hiển thị tổng lương
+            "Chưa thanh toán"
+        });
+        lstLuongNhanVien.Items.Add(item);
+        MessageBox.Show("Thêm lương thành công!");
+        _loadDanhSachTinhLuong();
+    }
+    else
+    {
+        MessageBox.Show("Thêm lương thất bại!");
+    }
+        }
+
+        private void _loadDanhSachTinhLuong(string keyword = "")
+        {
+            lstLuongNhanVien.Items.Clear();
+            List<TinhLuongDTO> danhSachLuong = tinhLuongBLL.GetAllTinhLuong();
+
+            foreach (TinhLuongDTO luong in danhSachLuong)
+            {
+                string tenNhanVien = tinhLuongBLL.GetTenNhanVien(luong.MaTaiKhoan);
+                if (!string.IsNullOrEmpty(keyword) && !tenNhanVien.ToLower().Contains(keyword))
+                {
+                    continue; // Bỏ qua nhân viên không khớp từ khóa tìm kiếm
+                }
+
+                string sdt = tinhLuongBLL.GetSDTNhanVien(luong.MaTaiKhoan);
+                string diaChi = tinhLuongBLL.GetDiaChiNhanVien(luong.MaTaiKhoan);
+                float luongCoBan = tinhLuongBLL.GetLuongCoBan(luong.MaTaiKhoan);
+                float tongLuong = luongCoBan * luong.Ca;
+
+                ListViewItem item = new ListViewItem((lstLuongNhanVien.Items.Count + 1).ToString());
+                item.SubItems.Add(luong.MaTaiKhoan.ToString());
+                item.SubItems.Add(tenNhanVien);
+                item.SubItems.Add(sdt);
+                item.SubItems.Add(diaChi);
+                item.SubItems.Add(luong.Thang.ToString());
+                item.SubItems.Add(luong.Nam.ToString());
+                item.SubItems.Add(luongCoBan.ToString("N0"));
+                item.SubItems.Add(luong.Ca.ToString());
+                item.SubItems.Add(tongLuong.ToString("N0"));
+                item.SubItems.Add(luong.TinhTrang == 0 ? "Chưa thanh toán" : "Đã thanh toán");
+                item.SubItems.Add(luong.GhiChu);
+
+                lstLuongNhanVien.Items.Add(item);
+            }
+        }
+
+
+        private void btnTinhLuong_Click(object sender, EventArgs e)
+        {
+            if (lstLuongNhanVien.SelectedItems.Count > 0)
+            {
+                int maTaiKhoan = Convert.ToInt32(lstLuongNhanVien.SelectedItems[0].SubItems[1].Text);
+                int thang = Convert.ToInt32(lstLuongNhanVien.SelectedItems[0].SubItems[5].Text);
+                int nam = Convert.ToInt32(lstLuongNhanVien.SelectedItems[0].SubItems[6].Text);
+                if (tinhLuongBLL.ThanhToanLuong(maTaiKhoan, thang, nam))
+                {
+                    MessageBox.Show("Thanh toán thành công!");
+                    _loadDanhSachTinhLuong(); 
+                }
+                else
+                {
+                    MessageBox.Show("Thanh toán thất bại!");
+                }
+            }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            string keyword = txtSearch.Text.Trim().ToLower();
+            _loadDanhSachTinhLuong(keyword);
+        }
+
+        private void frmAdmin_Shown(object sender, EventArgs e)
+        {
+            txtThang.Text = DateTime.Now.Month.ToString();
+        }
+        #endregion
+
+        #region Báo cáo doanh thu
+        private void _loadComboBox()
+        {
+            // Tháng từ 1 đến 12
+            for (int i = 1; i <= 12; i++)
+            {
+                cbxMonth.Items.Add(i);
+            }
+
+            // Năm từ 2020 đến năm hiện tại
+            int namHienTai = DateTime.Now.Year;
+            for (int i = 2020; i <= namHienTai; i++)
+            {
+                cbxYears.Items.Add(i);
+            }
+
+            // Chọn mặc định tháng hiện tại và năm hiện tại
+            cbxMonth.SelectedItem = DateTime.Now.Month;
+            cbxYears.SelectedItem = namHienTai;
+        }
+
+        private void btnXem_Click(object sender, EventArgs e)
+        {
+            int thang = Convert.ToInt32(cbxMonth.SelectedItem);
+            int nam = Convert.ToInt32(cbxYears.SelectedItem);
+            List<BaoCaoDTO> reports = BaoCaoBLL.Instance.LoadBaoCao(thang, nam);
+            lstDoanhThu.Items.Clear();
+            float sumDoanhThu = 0;
+            int stt = 1; // Bắt đầu STT từ 1
+
+            foreach (BaoCaoDTO report in reports)
+            {
+                ListViewItem item = new ListViewItem(stt.ToString()); // Cột STT
+                item.SubItems.Add(report.Thang.ToString());
+                item.SubItems.Add(report.Nam.ToString());
+                item.SubItems.Add(report.TongTienBan.ToString());
+                item.SubItems.Add(report.TongNguyenVatLieu.ToString());
+                item.SubItems.Add(report.TongLuongNhanVien.ToString());
+                item.SubItems.Add(report.TongDoanhThuThang.ToString());
+                lstDoanhThu.Items.Add(item);
+                sumDoanhThu += report.TongDoanhThuThang;
+                stt++; // Tăng STT cho dòng tiếp theo
+            }
+            txtTongDoanhThu.Text = BaoCaoBLL.Instance.GetTongDoanhThuNam(nam).ToString();
+        }
+
+        private void btnLammoiDoanhthu_Click(object sender, EventArgs e)
+        {
+            lstDoanhThu.Items.Clear();
+            txtTongDoanhThu.Clear();
+            cbxMonth.SelectedItem = DateTime.Now.Month;
+            cbxYears.SelectedItem = DateTime.Now.Year;
+        }
+
+        #endregion
+
+        private void btnThoatAdmin_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            FrmTrangChu frmTrangChu = new FrmTrangChu();
+            frmTrangChu.Show();
+        }
     }
 }
+ 
+
+

@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaoCaoBLL.cs" />
     <Compile Include="BillBLL.cs" />
     <Compile Include="ChiTietBillBLL.cs" />
     <Compile Include="MenuBLL.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="TableBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaiKhoanBLL.cs" />
+    <Compile Include="TinhLuongBLL.cs" />
     <Compile Include="TypeProductBLL.cs" />
   </ItemGroup>
   <ItemGroup>

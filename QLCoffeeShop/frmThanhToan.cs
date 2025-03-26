@@ -14,137 +14,110 @@ namespace QLCoffeeShop
 {
     public partial class Frm_ThanhToan : Form
     {
-        private int _MaHD;
-        private TableDTO _tableDTO;
-        private string _tongTien;
-        private string _TenHD;
-        public bool _KetQua = false;
 
-        private void frmThanhToan_Load(object sender, EventArgs e)
-        {
-            txtSTK.ContextMenu = new ContextMenu();
-            
-        }
-        public Frm_ThanhToan(string TenHD, TableDTO tableDTO, int MaHD, string TongTien)
-        {
-            InitializeComponent();
-            _TenHD = TenHD;
-            txtMaHD.Text = "HD00" + MaHD.ToString();
-            txtTongTien.Text = TongTien.ToString();
+            private int _MaHD;
+            private TableDTO _tableDTO;
+            private double _tongTien;
+            private string _TenHD;
+            public bool _KetQua = false;
 
-            _MaHD = MaHD;
-            _tableDTO = tableDTO;
-            _tongTien = TongTien.Replace(",", "").ToString();
-            timer1.Start();
-            timer1.Enabled = true;
-        }
-
-        private void txtSTK_TextChanged(object sender, EventArgs e)
-        {
-            double giauudai = String.IsNullOrEmpty(txtPromotion.Text) ? 0 : Convert.ToDouble(txtPromotion.Text);
-            double tongtien = String.IsNullOrEmpty(_tongTien) ? 0 : Convert.ToDouble(_tongTien);
-            double thanhtien = tongtien - giauudai;
-            if (txtSTK.Text.Equals(""))
+            public Frm_ThanhToan(string TenHD, TableDTO tableDTO, int MaHD, string TongTien)
             {
-                txtSTK.Text = "0";
+                InitializeComponent();
+                _TenHD = TenHD;
+                txtMaHD.Text = "HD00" + MaHD.ToString();
+                txtTongTien.Text = TongTien;
+                txtGiaUuDai.Text = "0";
+
+                _MaHD = MaHD;
+                _tableDTO = tableDTO;
+                double.TryParse(TongTien.Replace(",", ""), out _tongTien);
+
+                timer1.Start();
             }
 
-            if (giauudai > tongtien)
+            private void txtSTK_TextChanged(object sender, EventArgs e)
             {
-                MessageBox.Show("Vui lòng nhập số tiền giảm thấp hơn tổng giá trị hóa đơn.");
-                return;
-            }
+                double giauudai, tongtien, stk, thanhtien, tienton;
 
-            if (!txtSTK.Text.Equals(""))
-            {
-                if (txtSTK.Text.Length <= 8)
+                // Kiểm tra và chuyển đổi an toàn
+                double.TryParse(txtGiaUuDai.Text.Replace(",", "").Trim(), out giauudai);
+                double.TryParse(txtSTK.Text.Replace(",", "").Trim(), out stk);
+
+                tongtien = _tongTien;
+                thanhtien = tongtien - giauudai;
+
+                // Kiểm tra số tiền ưu đãi có hợp lệ không
+                if (giauudai > tongtien)
                 {
-                    double stk = String.IsNullOrEmpty(txtSTK.Text) ? 0 : Convert.ToDouble(txtSTK.Text);
-                    double kt = (stk - thanhtien);
-
-                    txtTienTon.Text = kt != 0 ? String.Format("{0:0,0}", kt) : "0";
-                    txtThanhTien.Text = (thanhtien != 0) ? String.Format("{0:0,0}", thanhtien) : "0";
+                    MessageBox.Show("Vui lòng nhập số tiền giảm thấp hơn tổng giá trị hóa đơn.");
+                    txtGiaUuDai.Text = "0";
+                    return;
                 }
-                else
-                {
-                    txtSTK.Text = "0";
-                    txtTienTon.Text = "0";
-                    txtPromotion.Text = "0";
-                    txtThanhTien.Text = "0";
-                    MessageBox.Show("Vui lòng nhập số tiền nằm khoảng chừng số tiền khách hàng phải trả.");
-                }
+
+                // Tính tiền thừa
+                tienton = stk - thanhtien;
+
+                // Cập nhật UI
+                txtTienTon.Text = tienton >= 0 ? String.Format("{0:0,0}", tienton) : "0";
+                txtThanhTien.Text = (thanhtien > 0) ? String.Format("{0:0,0}", thanhtien) : "0";
             }
-            else
+
+            private void btnXuatHD_Click(object sender, EventArgs e)
             {
-                txtTienTon.Text = "0";
-            }
-        }
+                double giauudai, tongtien, stk, thanhtien;
 
-        private void txtHuy_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+                double.TryParse(txtGiaUuDai.Text.Replace(",", "").Trim(), out giauudai);
+                double.TryParse(txtSTK.Text.Replace(",", "").Trim(), out stk);
 
-        private void btnXuatHD_Click(object sender, EventArgs e)
-        {
-            double giauudai = String.IsNullOrEmpty(txtPromotion.Text) ? 0 : Convert.ToDouble(txtPromotion.Text);
-            double tongtien = String.IsNullOrEmpty(_tongTien) ? 0 : Convert.ToDouble(_tongTien);
-            double thanhtien = tongtien - giauudai;
+                tongtien = _tongTien;
+                thanhtien = tongtien - giauudai;
 
-            if (!txtSTK.Text.Equals(""))
-            {
                 if (giauudai > tongtien)
                 {
                     MessageBox.Show("Vui lòng nhập số tiền giảm thấp hơn tổng giá trị hóa đơn.");
                     return;
                 }
 
-                if (Convert.ToDouble(txtSTK.Text) < thanhtien)
-                    MessageBox.Show("Hệ thống không cho phép khách hàng nợ, mong bạn thông cảm nhắc khách hàng thanh toán đúng số tiền trong hóa đơn.");
-                else
+                if (stk < thanhtien)
                 {
-                    DialogResult kq = MessageBox.Show("Bạn có muốn thanh toán hay không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (kq != DialogResult.No)
-                    {
-                        //
-                        // Hiển thị report
-                        RptThanhToan rptThanhToan = new RptThanhToan();
-                        DateTime Time = DateTime.Now;
-                        rptThanhToan.XuatHoaDon(_MaHD, _TenHD, _tableDTO.NameTable, Program.sTaiKhoan.TenTK, Time, _tongTien, txtPromotion.Text, txtSTK.Text, txtTienTon.Text, thanhtien.ToString(), true);
-                        //
-                        rptThanhToan.ShowDialog();
-                        BillBLL.UpdatetBill(_MaHD, tongtien, giauudai, Convert.ToDouble(txtSTK.Text), Convert.ToDouble(txtTienTon.Text), thanhtien, Time, Program.sTaiKhoan.ID);
+                    MessageBox.Show("Khách hàng chưa thanh toán đủ số tiền trong hóa đơn.");
+                    return;
+                }
 
-                        TableBLL.UpdateStatusTable(0, _tableDTO.ID); // Cập nhật da
+                DialogResult kq = MessageBox.Show("Bạn có muốn thanh toán hay không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (kq == DialogResult.Yes)
+                {
+                    // Hiển thị hóa đơn
+                    RptThanhToan rptThanhToan = new RptThanhToan();
+                    DateTime Time = DateTime.Now;
+                    rptThanhToan.XuatHoaDon(_MaHD, _TenHD, _tableDTO.NameTable, Program.sTaiKhoan.TenTK, Time, _tongTien.ToString(), txtGiaUuDai.Text, txtSTK.Text, txtTienTon.Text, thanhtien.ToString(), true);
+                    rptThanhToan.ShowDialog();
 
-                        _KetQua = true;
-                        Close();
-                    }
-                    else _KetQua = false;
+                    // Cập nhật hóa đơn vào cơ sở dữ liệu
+                    BillBLL.UpdatetBill(_MaHD, tongtien, giauudai, stk, Convert.ToDouble(txtTienTon.Text), thanhtien, Time, Program.sTaiKhoan.ID);
+                    TableBLL.UpdateStatusTable(0, _tableDTO.ID);
+
+                    _KetQua = true;
+                    Close();
                 }
             }
-            else MessageBox.Show("Nhập tiền khách cần thanh toán cho hóa đơn này!");
 
-
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            lblThoiGian.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-        }
-
-        private void txtSTK_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if ((Convert.ToInt32(e.KeyChar) >= 48 && Convert.ToInt32(e.KeyChar) <= 57) || Convert.ToInt32(e.KeyChar) == 8)
+            private void txtSTK_KeyPress(object sender, KeyPressEventArgs e)
             {
-                e.Handled = false;
+                // Chỉ cho nhập số và phím backspace
+                e.Handled = !(char.IsDigit(e.KeyChar) || e.KeyChar == '\b');
             }
-            else e.Handled = true;
-        }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.Close();
+            private void timer1_Tick(object sender, EventArgs e)
+            {
+                lblThoiGian.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+            }
+
+            private void button1_Click(object sender, EventArgs e)
+            {
+                Close();
+            }
         }
     }
-}
+

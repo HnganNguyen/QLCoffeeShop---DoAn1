@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DTO;
 using DAL;
+using System.Security.Policy;
 namespace BLL
 {
     public class BillBLL
@@ -34,5 +35,6 @@ namespace BLL
         {
             BillDAL.UpdatetBill(id, totalbill, promotion, cusPrice, outPrice, revenue, datetime, employ);
         }
+    
     }
 }

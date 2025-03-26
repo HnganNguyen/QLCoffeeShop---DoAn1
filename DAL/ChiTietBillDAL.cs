@@ -32,5 +32,10 @@ namespace DAL
             }
             return 0;
         }
+        public static void DeleteChiTietBill(int idbill, int idProduct)
+        {
+
+            DataProvider.Instance.ExcuteNonQuery("DELETE FROM CHITIETHOADON WHERE MAHOADON = @idbill AND MASANPHAM = @idProduct", new object[] { idbill, idProduct });
+        }
     }
 }

@@ -21,5 +21,9 @@ namespace BLL
         {
             return ChiTietBillDAL.GetSoLuongSanPham(idbill, idProduct);
         }
+        public static void DeleteChiTietBill(int idbill, int idProduct)
+        {
+            ChiTietBillDAL.DeleteChiTietBill(idbill, idProduct);
+        }
     }
 }

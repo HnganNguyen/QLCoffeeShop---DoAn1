@@ -22,22 +22,23 @@ namespace DAL
                     Convert.ToInt32(row["MA"]),
                     row["TEN"].ToString(),
                     Convert.ToDateTime(row["NGAYTAO"]),
-                    Convert.ToSingle(row["GIAGOC"]),
-                    row["GHICHU"]?.ToString() ?? ""
+                    Convert.ToDouble(row["GIAGOC"]),
+                    row["GHICHU"]?.ToString() ?? "",
+                    Convert.ToInt32(row["MATAIKHOAN"]) // Thêm lấy MATAIKHOAN
                 );
                 list.Add(nl);
             }
             return list;
         }
 
-        public static void InsertNguyenLieu(NguyenLieuDTO nl)
+        public static bool InsertNguyenLieu(NguyenLieuDTO nl)
         {
-            string query = "INSERT INTO HANGTONKHO (TEN, GIAGOC, GHICHU) VALUES (@TEN, @GIAGOC, @GHICHU)";
+            string query = "INSERT INTO HANGTONKHO (TEN, NGAYTAO, GIAGOC, GHICHU, MATAIKHOAN) " +
+                   "VALUES (@Ten, @NgayTao, @GiaGoc, @GhiChu, @MaTaiKhoan)";
 
-            // Đảm bảo đúng thứ tự tham số truyền vào
-            object[] parameters = { nl.Ten, (float)nl.GiaGoc, nl.GhiChu };
+            object[] parameters = { nl.Ten, nl.NgayTao, nl.GiaGoc, nl.GhiChu ?? (object)DBNull.Value, nl.MaTaiKhoan };
 
-            DataProvider.Instance.ExcuteNonQuery(query, parameters);
+            return DataProvider.Instance.ExcuteNonQuery(query, parameters) > 0;
         }
 
         public static void UpdateNguyenLieu(NguyenLieuDTO nl)

@@ -32,24 +32,25 @@ namespace DAL
             using (SqlConnection connec = new SqlConnection(_connection))
             {
                 connec.Open();
-                SqlCommand command = new SqlCommand(query, connec);
-
-                if (parameter != null)
+                using (SqlCommand command = new SqlCommand(query, connec))
                 {
-                    string[] ListPara = query.Split(' ');
-                    int i = 0;
-                    foreach (string item in ListPara)
+                    if (parameter != null)
                     {
-                        if (item.Contains('@'))
+                        string[] listParams = query.Split(new char[] { ' ', '(', ')', ',', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                        int i = 0;
+                        foreach (string item in listParams)
                         {
-                            command.Parameters.AddWithValue(item, parameter[i]);
-                            i++;
+                            if (item.StartsWith("@") && i < parameter.Length)
+                            {
+                                command.Parameters.AddWithValue(item, parameter[i]);
+                                i++;
+                            }
                         }
                     }
-                }
-                using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-                {
-                    adapter.Fill(data);
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                    {
+                        adapter.Fill(data);
+                    }
                 }
                 connec.Close();
             }
@@ -63,27 +64,30 @@ namespace DAL
             {
                 connec.Open();
                 SqlCommand command = new SqlCommand(query, connec);
+
                 if (parameter != null)
                 {
-                    string[] ListPara = query.Split(new char[] { ' ', ',', '(', ')', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries); // tui sửa lại cái này
+                    string[] ListPara = query.Split(new char[] { ' ', ',', '(', ')', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
                     int i = 0;
                     foreach (string item in ListPara)
                     {
-                        if (item.Contains('@'))
+                        if (item.Contains('@') && i < parameter.Length) // Kiểm tra tránh lỗi vượt mảng
                         {
                             command.Parameters.AddWithValue(item, parameter[i]);
                             i++;
                         }
                     }
                 }
-                    data = command.ExecuteNonQuery();
+
+                data = command.ExecuteNonQuery();
                 connec.Close();
             }
             return data;
         }
+
         public object ExcuteScalar(string query, object[] parameter = null)
         {
-            object data = 0;
+            object data = null;
             using (SqlConnection connec = new SqlConnection(_connection))
             {
                 connec.Open();
@@ -95,7 +99,7 @@ namespace DAL
                         int i = 0;
                         foreach (string item in ListPara)
                         {
-                            if (item.Contains('@'))
+                            if (item.Contains('@') && i < parameter.Length)
                             {
                                 command.Parameters.AddWithValue(item, parameter[i]);
                                 i++;

@@ -363,6 +363,65 @@ namespace QLCoffeeShop
             lblNgayHienTai.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
         }
 
-   
+        private void btnXoaSp_Click(object sender, EventArgs e)
+        {
+            if (lstBill.SelectedItems.Count > 0)
+            {
+                ListViewItem selectedItem = lstBill.SelectedItems[0];
+                MenuDTO selectedMenu = selectedItem.Tag as MenuDTO;
+                TableDTO table = lstBill.Tag as TableDTO;
+                int idBill = BillBLL.GetIDBillNoPaymentByIDTable(table.ID);
+
+                ChiTietBillBLL.DeleteChiTietBill(idBill, selectedMenu.IdProduct);
+                ShowBill(table.ID);
+
+                // Kiểm tra nếu lstBill trống sau khi xóa
+                if (lstBill.Items.Count == 0)
+                {
+                    TableBLL.UpdateStatusTable(0, table.ID);
+                    LoadTable();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn sản phẩm để xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+        private void _searchProductOder(string keyword)
+        {
+            lstSanPham.Items.Clear();
+            List<ProductDTO> listProduct = ProductBLL.SearchProductByName(keyword);
+
+            int stt = 1;
+            foreach (ProductDTO product in listProduct)
+            {
+                ListViewItem item = new ListViewItem(stt.ToString());
+                item.SubItems.Add(product.NameProducts);
+                item.SubItems.Add(product.SalePrice.ToString("0,0 VNĐ"));
+                item.SubItems.Add(TypeProductBLL.GetTypeNameByID(product.IDTypeProduct));
+                lstSanPham.Items.Add(item);
+                stt++;
+            }
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string keyword = txtTuKhoa.Text.Trim();
+            _searchProductOder(keyword);
+            txtTuKhoa.Clear();
+        }
+
+        private void btnLamMoisp_Click(object sender, EventArgs e)
+        {
+            _loadSanPham(ProductBLL.GetSanPhambyIDLoaiSP(0, 1));
+        }
+
+        private void btnThoatoder_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            FrmTrangChu frmTrangChu = new FrmTrangChu();
+            frmTrangChu.Show();
+     
+        }
     }
 }

@@ -16,10 +16,9 @@ namespace BLL
             return NguyenLieuDAL.GetAllNguyenLieu();
         }
 
-        public static List<NguyenLieuDTO> InsertNguyenLieu(NguyenLieuDTO nl)
+        public static bool InsertNguyenLieu(NguyenLieuDTO nl)
         {
-            NguyenLieuDAL.InsertNguyenLieu(nl);
-            return GetAllNguyenLieu(); // Trả về danh sách mới sau khi thêm
+            return NguyenLieuDAL.InsertNguyenLieu(nl);
         }
 
         public static List<NguyenLieuDTO> UpdateNguyenLieu(NguyenLieuDTO nl)

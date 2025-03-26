@@ -43,11 +43,9 @@
             this.txtThanhTien = new System.Windows.Forms.TextBox();
             this.btnXuatHD = new System.Windows.Forms.Button();
             this.txtHuy = new System.Windows.Forms.Button();
-            this.txtPromotion = new System.Windows.Forms.TextBox();
+            this.txtGiaUuDai = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label23 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label9
@@ -109,14 +107,14 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(152, 23);
             this.label4.TabIndex = 48;
-            this.label4.Text = "Tổng tiền:";
+            this.label4.Text = "Tiền hàng:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label5
             // 
             this.label5.AllowDrop = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(12, 201);
+            this.label5.Location = new System.Drawing.Point(12, 241);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(152, 23);
             this.label5.TabIndex = 49;
@@ -166,7 +164,7 @@
             this.txtTienTon.AllowDrop = true;
             this.txtTienTon.Enabled = false;
             this.txtTienTon.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTienTon.Location = new System.Drawing.Point(217, 201);
+            this.txtTienTon.Location = new System.Drawing.Point(217, 241);
             this.txtTienTon.Name = "txtTienTon";
             this.txtTienTon.ShortcutsEnabled = false;
             this.txtTienTon.Size = new System.Drawing.Size(190, 27);
@@ -213,25 +211,24 @@
             this.txtHuy.TabIndex = 58;
             this.txtHuy.Text = "Hủy";
             this.txtHuy.UseVisualStyleBackColor = false;
-            this.txtHuy.Click += new System.EventHandler(this.txtHuy_Click);
             // 
-            // txtPromotion
+            // txtGiaUuDai
             // 
-            this.txtPromotion.AllowDrop = true;
-            this.txtPromotion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPromotion.Location = new System.Drawing.Point(217, 240);
-            this.txtPromotion.Name = "txtPromotion";
-            this.txtPromotion.ShortcutsEnabled = false;
-            this.txtPromotion.Size = new System.Drawing.Size(190, 27);
-            this.txtPromotion.TabIndex = 55;
-            this.txtPromotion.Text = "0";
-            this.txtPromotion.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtGiaUuDai.AllowDrop = true;
+            this.txtGiaUuDai.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtGiaUuDai.Location = new System.Drawing.Point(217, 204);
+            this.txtGiaUuDai.Name = "txtGiaUuDai";
+            this.txtGiaUuDai.ShortcutsEnabled = false;
+            this.txtGiaUuDai.Size = new System.Drawing.Size(190, 27);
+            this.txtGiaUuDai.TabIndex = 55;
+            this.txtGiaUuDai.Text = "0";
+            this.txtGiaUuDai.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label10
             // 
             this.label10.AllowDrop = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(12, 242);
+            this.label10.Location = new System.Drawing.Point(12, 204);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(152, 23);
             this.label10.TabIndex = 50;
@@ -242,48 +239,16 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // label23
-            // 
-            this.label23.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
-            this.label23.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label23.ForeColor = System.Drawing.Color.White;
-            this.label23.Location = new System.Drawing.Point(0, 0);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(478, 40);
-            this.label23.TabIndex = 59;
-            this.label23.Text = "Thanh Toán";
-            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(432, 0);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(46, 40);
-            this.button1.TabIndex = 60;
-            this.button1.Text = "x";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // Frm_ThanhToan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.HighlightText;
-            this.ClientSize = new System.Drawing.Size(478, 436);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.label23);
+            this.ClientSize = new System.Drawing.Size(471, 436);
             this.Controls.Add(this.txtHuy);
             this.Controls.Add(this.btnXuatHD);
             this.Controls.Add(this.txtThanhTien);
-            this.Controls.Add(this.txtPromotion);
+            this.Controls.Add(this.txtGiaUuDai);
             this.Controls.Add(this.txtTienTon);
             this.Controls.Add(this.txtTongTien);
             this.Controls.Add(this.txtSTK);
@@ -297,10 +262,9 @@
             this.Controls.Add(this.lblThoiGian);
             this.Controls.Add(this.label9);
             this.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Frm_ThanhToan";
             this.Text = "Thanh Toán";
-            this.Load += new System.EventHandler(this.frmThanhToan_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -322,10 +286,8 @@
         private System.Windows.Forms.TextBox txtThanhTien;
         private System.Windows.Forms.Button btnXuatHD;
         private System.Windows.Forms.Button txtHuy;
-        private System.Windows.Forms.TextBox txtPromotion;
+        private System.Windows.Forms.TextBox txtGiaUuDai;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Button button1;
     }
 }
