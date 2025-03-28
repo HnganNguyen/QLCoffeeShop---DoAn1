@@ -401,7 +401,7 @@
             this.panel_btnSet.Controls.Add(this.btnDoanhthu);
             this.panel_btnSet.Location = new System.Drawing.Point(4, 55);
             this.panel_btnSet.Name = "panel_btnSet";
-            this.panel_btnSet.Size = new System.Drawing.Size(1509, 54);
+            this.panel_btnSet.Size = new System.Drawing.Size(1509, 90);
             this.panel_btnSet.TabIndex = 21;
             // 
             // btTinhLuong
@@ -479,10 +479,10 @@
             this.radAdminAccount.Controls.Add(this.tabTinhLuong);
             this.radAdminAccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F);
             this.radAdminAccount.ItemSize = new System.Drawing.Size(138, 25);
-            this.radAdminAccount.Location = new System.Drawing.Point(7, 131);
+            this.radAdminAccount.Location = new System.Drawing.Point(7, 119);
             this.radAdminAccount.Name = "radAdminAccount";
             this.radAdminAccount.SelectedIndex = 0;
-            this.radAdminAccount.Size = new System.Drawing.Size(1510, 620);
+            this.radAdminAccount.Size = new System.Drawing.Size(1510, 632);
             this.radAdminAccount.TabIndex = 22;
             // 
             // tabBan
@@ -492,7 +492,7 @@
             this.tabBan.Location = new System.Drawing.Point(4, 29);
             this.tabBan.Name = "tabBan";
             this.tabBan.Padding = new System.Windows.Forms.Padding(3);
-            this.tabBan.Size = new System.Drawing.Size(1502, 587);
+            this.tabBan.Size = new System.Drawing.Size(1502, 599);
             this.tabBan.TabIndex = 2;
             this.tabBan.Text = "   Quản lý bàn         ";
             this.tabBan.UseVisualStyleBackColor = true;
@@ -557,7 +557,7 @@
             this.groupBox4.Controls.Add(this.panel41);
             this.groupBox4.Location = new System.Drawing.Point(32, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(428, 578);
+            this.groupBox4.Size = new System.Drawing.Size(428, 590);
             this.groupBox4.TabIndex = 12;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Thông tin bàn ";
@@ -574,7 +574,7 @@
             this.panel41.Controls.Add(this.panel44);
             this.panel41.Location = new System.Drawing.Point(6, 17);
             this.panel41.Name = "panel41";
-            this.panel41.Size = new System.Drawing.Size(416, 555);
+            this.panel41.Size = new System.Drawing.Size(416, 567);
             this.panel41.TabIndex = 5;
             // 
             // btnThemBan
@@ -680,7 +680,7 @@
             this.tabSP.Location = new System.Drawing.Point(4, 29);
             this.tabSP.Name = "tabSP";
             this.tabSP.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSP.Size = new System.Drawing.Size(1502, 587);
+            this.tabSP.Size = new System.Drawing.Size(1502, 581);
             this.tabSP.TabIndex = 1;
             this.tabSP.Text = " Quản lý SảnPhẩm";
             this.tabSP.UseVisualStyleBackColor = true;
@@ -699,7 +699,7 @@
             this.panel3.Controls.Add(this.lstProduct);
             this.panel3.Location = new System.Drawing.Point(497, 13);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1002, 551);
+            this.panel3.Size = new System.Drawing.Size(1002, 545);
             this.panel3.TabIndex = 2;
             // 
             // cbLocLoaiSP
@@ -783,7 +783,7 @@
             this.lstProduct.HideSelection = false;
             this.lstProduct.Location = new System.Drawing.Point(58, 45);
             this.lstProduct.Name = "lstProduct";
-            this.lstProduct.Size = new System.Drawing.Size(832, 486);
+            this.lstProduct.Size = new System.Drawing.Size(832, 480);
             this.lstProduct.TabIndex = 3;
             this.lstProduct.UseCompatibleStateImageBehavior = false;
             this.lstProduct.View = System.Windows.Forms.View.Details;
@@ -829,7 +829,7 @@
             this.groupBox1.Controls.Add(this.panel20);
             this.groupBox1.Location = new System.Drawing.Point(15, 13);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(476, 552);
+            this.groupBox1.Size = new System.Drawing.Size(476, 546);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin sản phẩm";
@@ -1029,7 +1029,7 @@
             this.tabLoaiSP.Location = new System.Drawing.Point(4, 29);
             this.tabLoaiSP.Name = "tabLoaiSP";
             this.tabLoaiSP.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLoaiSP.Size = new System.Drawing.Size(1502, 587);
+            this.tabLoaiSP.Size = new System.Drawing.Size(1502, 581);
             this.tabLoaiSP.TabIndex = 6;
             this.tabLoaiSP.Text = "Loại Sản Phẩm";
             this.tabLoaiSP.UseVisualStyleBackColor = true;
@@ -1092,7 +1092,7 @@
             this.groupBox3.Controls.Add(this.panel36);
             this.groupBox3.Location = new System.Drawing.Point(6, 32);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(505, 575);
+            this.groupBox3.Size = new System.Drawing.Size(505, 569);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Thông tin loại sản phẩm";
@@ -1111,7 +1111,7 @@
             this.panel36.Controls.Add(this.panel40);
             this.panel36.Location = new System.Drawing.Point(0, 26);
             this.panel36.Name = "panel36";
-            this.panel36.Size = new System.Drawing.Size(499, 546);
+            this.panel36.Size = new System.Drawing.Size(499, 540);
             this.panel36.TabIndex = 5;
             // 
             // btnNewType
@@ -1274,7 +1274,7 @@
             this.tabNL.Location = new System.Drawing.Point(4, 29);
             this.tabNL.Name = "tabNL";
             this.tabNL.Padding = new System.Windows.Forms.Padding(3);
-            this.tabNL.Size = new System.Drawing.Size(1502, 587);
+            this.tabNL.Size = new System.Drawing.Size(1502, 581);
             this.tabNL.TabIndex = 0;
             this.tabNL.Text = "Nguyên liệu";
             this.tabNL.UseVisualStyleBackColor = true;
@@ -1580,7 +1580,7 @@
             this.tabDoanhthu.Location = new System.Drawing.Point(4, 29);
             this.tabDoanhthu.Name = "tabDoanhthu";
             this.tabDoanhthu.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDoanhthu.Size = new System.Drawing.Size(1502, 587);
+            this.tabDoanhthu.Size = new System.Drawing.Size(1502, 581);
             this.tabDoanhthu.TabIndex = 4;
             this.tabDoanhthu.Text = "Quản lí doanh thu    ";
             this.tabDoanhthu.UseVisualStyleBackColor = true;
@@ -1616,7 +1616,7 @@
             // txtTongDoanhThu
             // 
             this.txtTongDoanhThu.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTongDoanhThu.Location = new System.Drawing.Point(1201, 544);
+            this.txtTongDoanhThu.Location = new System.Drawing.Point(1201, 538);
             this.txtTongDoanhThu.Name = "txtTongDoanhThu";
             this.txtTongDoanhThu.ReadOnly = true;
             this.txtTongDoanhThu.Size = new System.Drawing.Size(117, 27);
@@ -1637,7 +1637,7 @@
             // label6
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.Location = new System.Drawing.Point(1026, 546);
+            this.label6.Location = new System.Drawing.Point(1026, 540);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(181, 25);
             this.label6.TabIndex = 30;
@@ -1728,7 +1728,7 @@
             this.lstDoanhThu.HideSelection = false;
             this.lstDoanhThu.Location = new System.Drawing.Point(466, 50);
             this.lstDoanhThu.Name = "lstDoanhThu";
-            this.lstDoanhThu.Size = new System.Drawing.Size(994, 483);
+            this.lstDoanhThu.Size = new System.Drawing.Size(994, 477);
             this.lstDoanhThu.TabIndex = 25;
             this.lstDoanhThu.UseCompatibleStateImageBehavior = false;
             this.lstDoanhThu.View = System.Windows.Forms.View.Details;
@@ -1774,7 +1774,7 @@
             this.tabTaiKhoan.Location = new System.Drawing.Point(4, 29);
             this.tabTaiKhoan.Name = "tabTaiKhoan";
             this.tabTaiKhoan.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTaiKhoan.Size = new System.Drawing.Size(1502, 587);
+            this.tabTaiKhoan.Size = new System.Drawing.Size(1502, 581);
             this.tabTaiKhoan.TabIndex = 5;
             this.tabTaiKhoan.Text = "     Tài Khoản      ";
             this.tabTaiKhoan.UseVisualStyleBackColor = true;
@@ -1788,7 +1788,7 @@
             this.groupBox5.Controls.Add(this.panel17);
             this.groupBox5.Location = new System.Drawing.Point(6, 3);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(1592, 596);
+            this.groupBox5.Size = new System.Drawing.Size(1592, 590);
             this.groupBox5.TabIndex = 2;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Thông tin tài khoản";
@@ -1818,7 +1818,7 @@
             this.panel6.Controls.Add(this.panel9);
             this.panel6.Location = new System.Drawing.Point(6, 26);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(1550, 532);
+            this.panel6.Size = new System.Drawing.Size(1550, 526);
             this.panel6.TabIndex = 5;
             // 
             // btnLamMoiTK
@@ -1915,7 +1915,7 @@
             this.lstAccount.HideSelection = false;
             this.lstAccount.Location = new System.Drawing.Point(600, 40);
             this.lstAccount.Name = "lstAccount";
-            this.lstAccount.Size = new System.Drawing.Size(884, 486);
+            this.lstAccount.Size = new System.Drawing.Size(884, 480);
             this.lstAccount.TabIndex = 0;
             this.lstAccount.UseCompatibleStateImageBehavior = false;
             this.lstAccount.View = System.Windows.Forms.View.Details;
@@ -2290,7 +2290,7 @@
             this.tabTinhLuong.Location = new System.Drawing.Point(4, 29);
             this.tabTinhLuong.Name = "tabTinhLuong";
             this.tabTinhLuong.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTinhLuong.Size = new System.Drawing.Size(1502, 587);
+            this.tabTinhLuong.Size = new System.Drawing.Size(1502, 581);
             this.tabTinhLuong.TabIndex = 7;
             this.tabTinhLuong.Text = "Tính lương";
             this.tabTinhLuong.UseVisualStyleBackColor = true;
