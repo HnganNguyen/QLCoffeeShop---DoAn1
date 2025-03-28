@@ -47,6 +47,17 @@ namespace DAL
             }
             return tablelist;
         }
+        public static List<TableDTO> GetListTableHaveStatusZero()
+        {
+            List<TableDTO> tablelist = new List<TableDTO>();
+            DataTable data = DataProvider.Instance.ExcuteQuery("Select * from ban where trangthai = 0");
+            foreach (DataRow item in data.Rows)
+            {
+                TableDTO table = new TableDTO(item);
+                tablelist.Add(table);
+            }
+            return tablelist;
+        }
 
         public static List<TableDTO> GetListTableDifferentID(int id)
         {

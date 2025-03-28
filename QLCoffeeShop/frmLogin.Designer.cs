@@ -33,6 +33,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.txtMSTK = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -47,7 +48,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
-            this.txtMSTK = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -71,9 +71,9 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
             this.panel2.Controls.Add(this.pictureBox1);
-            this.panel2.Location = new System.Drawing.Point(-10, -11);
+            this.panel2.Location = new System.Drawing.Point(-11, -11);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(468, 515);
+            this.panel2.Size = new System.Drawing.Size(469, 515);
             this.panel2.TabIndex = 1;
             // 
             // pictureBox1
@@ -104,10 +104,20 @@
             this.panel3.Controls.Add(this.label1);
             this.panel3.Controls.Add(this.panel4);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel3.Location = new System.Drawing.Point(436, 0);
+            this.panel3.Location = new System.Drawing.Point(455, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(535, 504);
+            this.panel3.Size = new System.Drawing.Size(516, 504);
             this.panel3.TabIndex = 0;
+            // 
+            // txtMSTK
+            // 
+            this.txtMSTK.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMSTK.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(44)))), ((int)(((byte)(32)))));
+            this.txtMSTK.Location = new System.Drawing.Point(98, 263);
+            this.txtMSTK.Multiline = true;
+            this.txtMSTK.Name = "txtMSTK";
+            this.txtMSTK.Size = new System.Drawing.Size(373, 31);
+            this.txtMSTK.TabIndex = 20;
             // 
             // label3
             // 
@@ -252,7 +262,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(535, 45);
+            this.panel4.Size = new System.Drawing.Size(516, 45);
             this.panel4.TabIndex = 1;
             // 
             // button1
@@ -261,7 +271,7 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(489, 2);
+            this.button1.Location = new System.Drawing.Point(468, -1);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(46, 43);
@@ -270,23 +280,13 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // txtMSTK
-            // 
-            this.txtMSTK.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMSTK.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(44)))), ((int)(((byte)(32)))));
-            this.txtMSTK.Location = new System.Drawing.Point(98, 263);
-            this.txtMSTK.Multiline = true;
-            this.txtMSTK.Name = "txtMSTK";
-            this.txtMSTK.Size = new System.Drawing.Size(373, 31);
-            this.txtMSTK.TabIndex = 20;
-            // 
             // Frm_DangNhap
             // 
             this.AcceptButton = this.btnThoat;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(994, 523);
+            this.ClientSize = new System.Drawing.Size(988, 523);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;

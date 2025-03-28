@@ -10,7 +10,7 @@ namespace DAL
 {
     public class DataProvider
     {
-        private const string _connection = @"Data Source=MINHACER\TBM826;Initial Catalog=QLCoffeeShop;Integrated Security=True;Encrypt=False";
+        private const string _connection = @"Data Source=NTHTHAM\SQLEXPRESS;Initial Catalog=QLCoffeeShop;Integrated Security=True;Encrypt=False";
 
         private static DataProvider _instance;
 

@@ -42,5 +42,9 @@ namespace BLL
         {
             return TableDAL.DeleteTable(tb);
         }
+        public static List<TableDTO> GetListTableHaveStatusZero()
+        {
+            return TableDAL.GetListTableHaveStatusZero();
+        }
     }
 }

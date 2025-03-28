@@ -118,5 +118,10 @@ namespace QLCoffeeShop
                 txtXacNhap.UseSystemPasswordChar = true;
             }
         }
+
+        private void btnThoatoder_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

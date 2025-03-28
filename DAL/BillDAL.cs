@@ -69,6 +69,9 @@ namespace DAL
             DataProvider.Instance.ExcuteNonQuery(query, new object[] { ThoiGian, TongTien, Employ, idTable });
         }
 
-
+        public static void DeleteBill(int idbill)
+        {
+            DataProvider.Instance.ExcuteNonQuery("DELETE FROM HOADON WHERE ma = @IdBill ", new object[] { idbill });
         }
+    }
 }

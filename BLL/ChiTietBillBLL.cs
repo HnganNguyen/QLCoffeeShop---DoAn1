@@ -25,5 +25,13 @@ namespace BLL
         {
             ChiTietBillDAL.DeleteChiTietBill(idbill, idProduct);
         }
+        public static void DeleteChiTietBillByBillID(int idBill)
+        {
+            ChiTietBillDAL.DeleteChiTietBillByBillID(idBill);
+        }
+        public static List<ChiTietBillDTO> GetListProductByIDBill(int idBill)
+        {
+            return ChiTietBillDAL.GetListProductByIDBill(idBill);
+        }
     }
 }

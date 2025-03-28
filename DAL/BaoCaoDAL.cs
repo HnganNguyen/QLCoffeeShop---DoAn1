@@ -11,6 +11,13 @@ namespace DAL
 {
     public class BaoCaoDAL
     {
+        private static BaoCaoDAL instance;
+
+        public static BaoCaoDAL Instance
+        {
+            get { if (instance == null) instance = new BaoCaoDAL(); return instance; }
+            private set { instance = value; }
+        }
         public BaoCaoDAL() { }
         public List<BaoCaoDTO> GetBaoCao(int thang, int nam)
         {

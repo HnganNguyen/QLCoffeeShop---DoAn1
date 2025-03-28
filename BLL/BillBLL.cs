@@ -35,6 +35,9 @@ namespace BLL
         {
             BillDAL.UpdatetBill(id, totalbill, promotion, cusPrice, outPrice, revenue, datetime, employ);
         }
-    
+        public static void DeleteBill(int id)
+        {
+            BillDAL.DeleteBill(id);
+        }
     }
 }

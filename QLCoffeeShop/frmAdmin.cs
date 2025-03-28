@@ -7,10 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using excel = Microsoft.Office.Interop.Excel;
+using System.IO;
+using OfficeOpenXml;    
 using BLL;
 using DAL;
 using DTO;
 using QLCoffeeShop;
+using System.Windows.Forms.DataVisualization.Charting;
+using Microsoft.Reporting.Map.WebForms.BingMaps;
+using System.Diagnostics;
 
 namespace QLCoffeeShop
 {
@@ -30,32 +36,41 @@ namespace QLCoffeeShop
             _showDanhSachNhanVien();
             _loadDanhSachTinhLuong();
             _loadComboBox();
+            LoadChart();
         }
 
 
         #region liên kết tabcontrl và button
-        private void btnHoaDon_Click(object sender, EventArgs e)
-        {
-            HandleButtonClick(sender, "tabPage1");
-        }
 
         private void btnSanpham_Click(object sender, EventArgs e)
         {
-            HandleButtonClick(sender, "tabPage2");
+            HandleButtonClick(sender, "tabSP");
         }
         private void btnBan_Click(object sender, EventArgs e)
         {
-            HandleButtonClick(sender, "tabPage3");
+            HandleButtonClick(sender, "tabBan");
+        }
+        private void btnLoaiSP_Click(object sender, EventArgs e)
+        {
+            HandleButtonClick(sender, "tabLoaiSP");
         }
 
         private void btnDoanhthu_Click(object sender, EventArgs e)
         {
-            HandleButtonClick(sender, "tabPage4");
+            HandleButtonClick(sender, "tabDoanhthu");
         }
 
         private void btnTaiKhoan_Click(object sender, EventArgs e)
         {
-            HandleButtonClick(sender, "tabPage5");
+            HandleButtonClick(sender, "tabTaiKhoan");
+        }
+        private void btnNguyenVatLieu_Click(object sender, EventArgs e)
+        {
+            HandleButtonClick(sender, "tabNL");
+        }
+        private void btTinhLuong_Click(object sender, EventArgs e)
+        {
+            HandleButtonClick(sender, "tabTinhLuong");
         }
 
         private TinhLuongBLL tinhLuongBLL = new TinhLuongBLL();
@@ -459,6 +474,43 @@ namespace QLCoffeeShop
             }
             txtTongGiaNL.Text = total.ToString("N0");
         }
+
+        private void btnSuaNL_Click(object sender, EventArgs e)
+        {
+            if (lstNguyenLieu.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Vui lòng chọn nguyên liệu cần sửa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtTenNL.Text) || string.IsNullOrWhiteSpace(txtGiaNL.Text))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int ma = int.Parse(txtMaNL.Text);
+            NguyenLieuDTO nl = new NguyenLieuDTO
+            {
+                Ma = ma,
+                Ten = txtTenNL.Text,
+                GiaGoc = double.Parse(txtGiaNL.Text),
+                GhiChu = txtGhiChuNL.Text,
+                MaTaiKhoan = Program.CurrentUserID // ⭐ Lấy mã tài khoản của người đăng nhập
+            };
+
+            if (NguyenLieuBLL.EditNguyenLieu(nl))
+            {
+                _showIngredient();
+                _clearIngredientForm();
+                _calculateTotalPrice();
+                MessageBox.Show("Cập nhật nguyên liệu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Cập nhật nguyên liệu thất bại! Vui lòng thử lại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         #endregion
 
         #region Quản lý sản phẩm
@@ -790,7 +842,7 @@ namespace QLCoffeeShop
         {
             try
             {
-                if 
+                if
 
                     (string.IsNullOrWhiteSpace(txtNameAccount.Text) ||
                      string.IsNullOrWhiteSpace(txtHoTen.Text) || string.IsNullOrWhiteSpace(txtPassword.Text) ||
@@ -1007,34 +1059,34 @@ namespace QLCoffeeShop
         private void btnThemLuong_Click(object sender, EventArgs e)
         {
             if (cbxNhanVien.SelectedItem == null || string.IsNullOrWhiteSpace(txtThang.Text) || string.IsNullOrWhiteSpace(txtCa.Text))
-    {
-        MessageBox.Show("Vui lòng nhập đầy đủ thông tin!");
-        return;
-    }
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
 
-    int maTaiKhoan = Convert.ToInt32(cbxNhanVien.SelectedValue);
-    int thang = Convert.ToInt32(txtThang.Text);
-    int soCa = Convert.ToInt32(txtCa.Text);
-    float luongCoBan = tinhLuongBLL.GetLuongCoBan(maTaiKhoan);
-    float tongLuong = luongCoBan * soCa; // Tính tổng lương dựa trên số ca
+            int maTaiKhoan = Convert.ToInt32(cbxNhanVien.SelectedValue);
+            int thang = Convert.ToInt32(txtThang.Text);
+            int soCa = Convert.ToInt32(txtCa.Text);
+            float luongCoBan = tinhLuongBLL.GetLuongCoBan(maTaiKhoan);
+            float tongLuong = luongCoBan * soCa; // Tính tổng lương dựa trên số ca
 
-    TinhLuongDTO luongMoi = new TinhLuongDTO
-    {
-        MaTaiKhoan = maTaiKhoan,
-        Thang = thang,
-        Nam = DateTime.Now.Year,
-        Ca = soCa,
-        Tong = tongLuong,
-        GhiChu = txtGhiChu.Text,
-        TinhTrang = 0,
-        NgayTao = DateTime.Now
-    };
+            TinhLuongDTO luongMoi = new TinhLuongDTO
+            {
+                MaTaiKhoan = maTaiKhoan,
+                Thang = thang,
+                Nam = DateTime.Now.Year,
+                Ca = soCa,
+                Tong = tongLuong,
+                GhiChu = txtGhiChu.Text,
+                TinhTrang = 0,
+                NgayTao = DateTime.Now
+            };
 
-    if (tinhLuongBLL.ThemLuong(luongMoi))
-    {
-       
-        ListViewItem item = new ListViewItem(new string[]
-        {
+            if (tinhLuongBLL.ThemLuong(luongMoi))
+            {
+
+                ListViewItem item = new ListViewItem(new string[]
+                {
             tinhLuongBLL.GetTenNhanVien(maTaiKhoan),
             tinhLuongBLL.GetSDTNhanVien(maTaiKhoan),
             tinhLuongBLL.GetDiaChiNhanVien(maTaiKhoan),
@@ -1044,15 +1096,15 @@ namespace QLCoffeeShop
             soCa.ToString(),
             tongLuong.ToString("N0"),
             "Chưa thanh toán"
-        });
-        lstLuongNhanVien.Items.Add(item);
-        MessageBox.Show("Thêm lương thành công!");
-        _loadDanhSachTinhLuong();
-    }
-    else
-    {
-        MessageBox.Show("Thêm lương thất bại!");
-    }
+                });
+                lstLuongNhanVien.Items.Add(item);
+                MessageBox.Show("Thêm lương thành công!");
+                _loadDanhSachTinhLuong();
+            }
+            else
+            {
+                MessageBox.Show("Thêm lương thất bại!");
+            }
         }
 
         private void _loadDanhSachTinhLuong(string keyword = "")
@@ -1101,7 +1153,7 @@ namespace QLCoffeeShop
                 if (tinhLuongBLL.ThanhToanLuong(maTaiKhoan, thang, nam))
                 {
                     MessageBox.Show("Thanh toán thành công!");
-                    _loadDanhSachTinhLuong(); 
+                    _loadDanhSachTinhLuong();
                 }
                 else
                 {
@@ -1145,10 +1197,10 @@ namespace QLCoffeeShop
             List<BaoCaoDTO> reports = BaoCaoBLL.Instance.LoadBaoCao(thang, nam);
             lstDoanhThu.Items.Clear();
             float sumDoanhThu = 0;
-            int stt = 1; 
+            int stt = 1;
             foreach (BaoCaoDTO report in reports)
             {
-                ListViewItem item = new ListViewItem(stt.ToString()); 
+                ListViewItem item = new ListViewItem(stt.ToString());
                 item.SubItems.Add(report.Thang.ToString());
                 item.SubItems.Add(report.Nam.ToString());
                 item.SubItems.Add(report.TongTienBan.ToString());
@@ -1157,9 +1209,11 @@ namespace QLCoffeeShop
                 item.SubItems.Add(report.TongDoanhThuThang.ToString());
                 lstDoanhThu.Items.Add(item);
                 sumDoanhThu += report.TongDoanhThuThang;
-                stt++; 
+                stt++;
             }
+         
             txtTongDoanhThu.Text = BaoCaoBLL.Instance.GetTongDoanhThuNam(nam).ToString();
+            LoadChart();
         }
 
         private void btnLammoiDoanhthu_Click(object sender, EventArgs e)
@@ -1168,17 +1222,126 @@ namespace QLCoffeeShop
             txtTongDoanhThu.Clear();
             cbxMonth.SelectedItem = DateTime.Now.Month;
             cbxYears.SelectedItem = DateTime.Now.Year;
+            LoadChart();
         }
+        private void ExportExcel(string path)
+        {
+            excel.Application app = new excel.Application();
+            excel.Workbook wb = app.Workbooks.Add(Type.Missing);
+            excel.Worksheet ws = wb.ActiveSheet;
+            ws.Name = "DoanhThu";
+            // Header
+            ws.Cells[1, 1] = "STT";
+            ws.Cells[1, 2] = "Tháng";
+            ws.Cells[1, 3] = "Năm";
+            ws.Cells[1, 4] = "Tổng Tiền Bán";
+            ws.Cells[1, 5] = "Tổng Nguyên Vật Liệu";
+            ws.Cells[1, 6] = "Tổng Lương Nhân Viên";
+            ws.Cells[1, 7] = "Tổng Doanh Thu Tháng";
+
+            // Data
+            for (int i = 0; i < lstDoanhThu.Items.Count; i++)
+            {
+                ListViewItem item = lstDoanhThu.Items[i];
+                ws.Cells[i + 2, 1] = item.SubItems[0].Text;
+                ws.Cells[i + 2, 2] = item.SubItems[1].Text;
+                ws.Cells[i + 2, 3] = item.SubItems[2].Text;
+                ws.Cells[i + 2, 4] = item.SubItems[3].Text;
+                ws.Cells[i + 2, 5] = item.SubItems[4].Text;
+                ws.Cells[i + 2, 6] = item.SubItems[5].Text;
+                ws.Cells[i + 2, 7] = item.SubItems[6].Text;
+            }
+
+            wb.SaveAs(path);
+            wb.Close();
+            app.Quit();
+        }
+        private void xuatexcel_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Title = "Chọn nơi lưu file";
+            sfd.Filter = "Excel(*.xlsx)|*.xlsx|Excel 2003(*.xls)|*.xls";
+            sfd.FileName = "DoanhThu";
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    ExportExcel(sfd.FileName);
+                    MessageBox.Show("Xuất file thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Xuất file thất bại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        private void LoadChart()
+        {
+            int nam = Convert.ToInt32(cbxYears.SelectedItem);
+            int thangHienTai = DateTime.Now.Month; // Lấy tháng hiện tại
+            chartDoanhThu.Series.Clear();
+            Series series = new Series("Doanh Thu");
+            series.ChartType = SeriesChartType.Column;
+            series.IsValueShownAsLabel = true; // Hiển thị số liệu trên cột
+
+            Dictionary<int, float> doanhThuTheoThang = new Dictionary<int, float>();
+
+            // Duyệt ListView để lấy dữ liệu doanh thu của từng tháng
+            foreach (ListViewItem item in lstDoanhThu.Items)
+            {
+                int thang = Convert.ToInt32(item.SubItems[1].Text); // Cột Tháng
+                float doanhThu = Convert.ToSingle(item.SubItems[6].Text); // Cột Tổng Doanh Thu Tháng
+
+                // Chỉ lấy dữ liệu từ tháng 1 đến tháng hiện tại
+                if (thang >= 1 && thang <= thangHienTai)
+                {
+                    doanhThuTheoThang[thang] = doanhThu;
+                }
+            }
+
+            // Nếu không có dữ liệu thì thông báo lỗi
+            if (doanhThuTheoThang.Count == 0)
+            {
+                //MessageBox.Show("Không có dữ liệu doanh thu từ tháng 1 đến nay!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Hiển thị dữ liệu doanh thu trên biểu đồ
+            for (int i = 1; i <= thangHienTai; i++)
+            {
+                float doanhThu = doanhThuTheoThang.ContainsKey(i) ? doanhThuTheoThang[i] : 0;
+                series.Points.AddXY($"Tháng {i}/{nam}", doanhThu);
+            }
+
+            chartDoanhThu.Series.Add(series);
+            chartDoanhThu.ChartAreas[0].AxisX.Title = "Tháng/Năm";
+            chartDoanhThu.ChartAreas[0].AxisY.Title = "Doanh Thu";
+            chartDoanhThu.ChartAreas[0].AxisY.LabelStyle.Format = "{0:0,0}";
+            chartDoanhThu.ChartAreas[0].AxisX.Interval = 1; // Hiển thị tất cả các tháng có dữ liệu
+        }
+
         #endregion
 
-        private void btnThoatAdmin_Click(object sender, EventArgs e)
+
+
+
+
+
+        private void btnAdminThoat_Click(object sender, EventArgs e)
         {
+
             this.Close();
             FrmTrangChu frmTrangChu = new FrmTrangChu();
             frmTrangChu.Show();
         }
+
+        private void frmAdmin_Load(object sender, EventArgs e)
+        {
+            LoadChart();
+        }
     }
+
 }
- 
+
 
 

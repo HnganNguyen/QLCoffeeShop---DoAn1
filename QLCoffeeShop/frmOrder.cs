@@ -303,6 +303,7 @@ namespace QLCoffeeShop
                         }
                         table = _createAddBillByIDTable(Product);
                         ShowBill(table.ID);
+                        LoadTable();
                     }
                 }
                 else
@@ -422,6 +423,12 @@ namespace QLCoffeeShop
             FrmTrangChu frmTrangChu = new FrmTrangChu();
             frmTrangChu.Show();
      
+        }
+
+        private void btnChuyenBan_Click(object sender, EventArgs e)
+        {
+            frmChuyenBan frm = new frmChuyenBan(this);
+            frm.ShowDialog();
         }
     }
 }

@@ -35,48 +35,61 @@ namespace QLCoffeeShop
 
                 timer1.Start();
             }
+        private void UpdateThanhTienvsTienTon()
+        {
+            double giauudai, tongtien, stk, thanhtien, tienton;
+
+            // Chuyển đổi an toàn
+            if (!double.TryParse(txtGiaUuDai.Text.Replace(",", "").Trim(), out giauudai))
+                giauudai = 0;
+
+            if (!double.TryParse(txtSTK.Text.Replace(",", "").Trim(), out stk))
+                stk = 0;
+
+            tongtien = _tongTien;
+            thanhtien = tongtien - giauudai;
+
+            // Kiểm tra số tiền ưu đãi hợp lệ
+            if (giauudai > tongtien)
+            {
+                MessageBox.Show("Vui lòng nhập số tiền giảm thấp hơn tổng giá trị hóa đơn.");
+                txtGiaUuDai.Text = "0";
+                giauudai = 0;
+                thanhtien = tongtien;
+            }
+
+            // Tính tiền thối lại chính xác
+            tienton = stk - thanhtien;
+
+            // Cập nhật UI
+            txtTienTon.Text = tienton >= 0 ? String.Format("{0:0,0}", tienton) : "0";
+            txtThanhTien.Text = String.Format("{0:0,0}", thanhtien);
+        }
 
             private void txtSTK_TextChanged(object sender, EventArgs e)
             {
+                UpdateThanhTienvsTienTon();
+        }
+
+            private void btnXuatHD_Click(object sender, EventArgs e)
+            {
                 double giauudai, tongtien, stk, thanhtien, tienton;
 
-                // Kiểm tra và chuyển đổi an toàn
-                double.TryParse(txtGiaUuDai.Text.Replace(",", "").Trim(), out giauudai);
-                double.TryParse(txtSTK.Text.Replace(",", "").Trim(), out stk);
+                if (!double.TryParse(txtGiaUuDai.Text.Replace(",", "").Trim(), out giauudai))
+                    giauudai = 0;
+
+                if (!double.TryParse(txtSTK.Text.Replace(",", "").Trim(), out stk))
+                    stk = 0;
 
                 tongtien = _tongTien;
                 thanhtien = tongtien - giauudai;
 
-                // Kiểm tra số tiền ưu đãi có hợp lệ không
                 if (giauudai > tongtien)
                 {
                     MessageBox.Show("Vui lòng nhập số tiền giảm thấp hơn tổng giá trị hóa đơn.");
                     txtGiaUuDai.Text = "0";
-                    return;
-                }
-
-                // Tính tiền thừa
-                tienton = stk - thanhtien;
-
-                // Cập nhật UI
-                txtTienTon.Text = tienton >= 0 ? String.Format("{0:0,0}", tienton) : "0";
-                txtThanhTien.Text = (thanhtien > 0) ? String.Format("{0:0,0}", thanhtien) : "0";
-            }
-
-            private void btnXuatHD_Click(object sender, EventArgs e)
-            {
-                double giauudai, tongtien, stk, thanhtien;
-
-                double.TryParse(txtGiaUuDai.Text.Replace(",", "").Trim(), out giauudai);
-                double.TryParse(txtSTK.Text.Replace(",", "").Trim(), out stk);
-
-                tongtien = _tongTien;
-                thanhtien = tongtien - giauudai;
-
-                if (giauudai > tongtien)
-                {
-                    MessageBox.Show("Vui lòng nhập số tiền giảm thấp hơn tổng giá trị hóa đơn.");
-                    return;
+                    giauudai = 0;
+                    thanhtien = tongtien;
                 }
 
                 if (stk < thanhtien)
@@ -85,23 +98,32 @@ namespace QLCoffeeShop
                     return;
                 }
 
+                // Tính toán tiền thối chính xác
+                tienton = stk - thanhtien;
+                txtTienTon.Text = String.Format("{0:0,0}", tienton);
+
                 DialogResult kq = MessageBox.Show("Bạn có muốn thanh toán hay không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (kq == DialogResult.Yes)
                 {
-                    // Hiển thị hóa đơn
-                    RptThanhToan rptThanhToan = new RptThanhToan();
+                    // Xuất hóa đơn với tiền thối chính xác
                     DateTime Time = DateTime.Now;
-                    rptThanhToan.XuatHoaDon(_MaHD, _TenHD, _tableDTO.NameTable, Program.sTaiKhoan.TenTK, Time, _tongTien.ToString(), txtGiaUuDai.Text, txtSTK.Text, txtTienTon.Text, thanhtien.ToString(), true);
+                    RptThanhToan rptThanhToan = new RptThanhToan();
+                    rptThanhToan.XuatHoaDon(_MaHD, _TenHD, _tableDTO.NameTable, Program.sTaiKhoan.TenTK, Time,
+                        String.Format("{0:0,0}", _tongTien),
+                        txtGiaUuDai.Text,
+                        txtSTK.Text,
+                        txtTienTon.Text,  // Đã sửa lỗi sai số tiền thối lại
+                        String.Format("{0:0,0}", thanhtien), true);
                     rptThanhToan.ShowDialog();
 
-                    // Cập nhật hóa đơn vào cơ sở dữ liệu
-                    BillBLL.UpdatetBill(_MaHD, tongtien, giauudai, stk, Convert.ToDouble(txtTienTon.Text), thanhtien, Time, Program.sTaiKhoan.ID);
+                    // Cập nhật hóa đơn vào CSDL
+                    BillBLL.UpdatetBill(_MaHD, tongtien, giauudai, stk, tienton, thanhtien, Time, Program.sTaiKhoan.ID);
                     TableBLL.UpdateStatusTable(0, _tableDTO.ID);
 
                     _KetQua = true;
                     Close();
-                }
             }
+        }
 
             private void txtSTK_KeyPress(object sender, KeyPressEventArgs e)
             {
@@ -118,6 +140,18 @@ namespace QLCoffeeShop
             {
                 Close();
             }
+
+        private void btnThoatoder_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
+
+      
+
+        private void txtGiaUuDai_TextChanged(object sender, EventArgs e)
+        {
+            UpdateThanhTienvsTienTon();
+        }
+    }
     }
 

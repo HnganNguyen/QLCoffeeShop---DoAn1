@@ -66,6 +66,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.btnLamMoi = new System.Windows.Forms.Button();
             this.btnThoatoder = new System.Windows.Forms.Button();
+            this.btnChuyenBan = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -95,7 +96,7 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.groupBox1.Location = new System.Drawing.Point(12, 131);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(461, 703);
+            this.groupBox1.Size = new System.Drawing.Size(461, 648);
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin bàn";
@@ -109,7 +110,7 @@
             this.flpTable.BackColor = System.Drawing.Color.Transparent;
             this.flpTable.Location = new System.Drawing.Point(6, 23);
             this.flpTable.Name = "flpTable";
-            this.flpTable.Size = new System.Drawing.Size(437, 674);
+            this.flpTable.Size = new System.Drawing.Size(437, 607);
             this.flpTable.TabIndex = 6;
             // 
             // groupBox3
@@ -464,18 +465,36 @@
             this.btnThoatoder.UseVisualStyleBackColor = false;
             this.btnThoatoder.Click += new System.EventHandler(this.btnThoatoder_Click);
             // 
+            // btnChuyenBan
+            // 
+            this.btnChuyenBan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
+            this.btnChuyenBan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnChuyenBan.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btnChuyenBan.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnChuyenBan.Location = new System.Drawing.Point(183, 88);
+            this.btnChuyenBan.Name = "btnChuyenBan";
+            this.btnChuyenBan.Size = new System.Drawing.Size(125, 37);
+            this.btnChuyenBan.TabIndex = 62;
+            this.btnChuyenBan.Text = "Chuyển Bàn";
+            this.btnChuyenBan.UseVisualStyleBackColor = false;
+            this.btnChuyenBan.Click += new System.EventHandler(this.btnChuyenBan_Click);
+            // 
             // frmOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Snow;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1568, 836);
+            this.Controls.Add(this.btnChuyenBan);
             this.Controls.Add(this.btnThoatoder);
             this.Controls.Add(this.btnLamMoi);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label23);
+            this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "frmOrder";
@@ -530,5 +549,6 @@
         private System.Windows.Forms.Button btnXoaSp;
         private System.Windows.Forms.Button btnLamMoisp;
         private System.Windows.Forms.Button btnThoatoder;
+        private System.Windows.Forms.Button btnChuyenBan;
     }
 }

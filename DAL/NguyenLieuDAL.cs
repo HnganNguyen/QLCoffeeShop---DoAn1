@@ -50,6 +50,13 @@ namespace DAL
 
             DataProvider.Instance.ExcuteNonQuery(query, parameters);
         }
+        public static bool EditNguyenLieu(NguyenLieuDTO nl)
+        {
+            string query = "UPDATE HANGTONKHO SET TEN = @TEN, GIAGOC = @GIAGOC, GHICHU = @GHICHU WHERE MA = @MA";
+            // Đảm bảo đúng thứ tự tham số
+            object[] parameters = { nl.Ten, (float)nl.GiaGoc, nl.GhiChu, nl.Ma };
+            return DataProvider.Instance.ExcuteNonQuery(query, parameters) > 0;
+        }
 
 
         public static void DeleteNguyenLieu(int ma)

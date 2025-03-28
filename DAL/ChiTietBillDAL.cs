@@ -32,10 +32,26 @@ namespace DAL
             }
             return 0;
         }
+        public static List<ChiTietBillDTO> GetListProductByIDBill(int idBill)
+        {
+            List<ChiTietBillDTO> lstProduct = new List<ChiTietBillDTO>();
+            string query = "SELECT *  FROM CHITIETHOADON WHERE MAHOADON = @idBill";
+            DataTable data = DataProvider.Instance.ExcuteQuery(query, new object[] { idBill });
+            foreach (DataRow item in data.Rows)
+            {
+                ChiTietBillDTO detail = new ChiTietBillDTO(item);
+                lstProduct.Add(detail);
+            }
+            return lstProduct;
+        }
         public static void DeleteChiTietBill(int idbill, int idProduct)
         {
 
             DataProvider.Instance.ExcuteNonQuery("DELETE FROM CHITIETHOADON WHERE MAHOADON = @idbill AND MASANPHAM = @idProduct", new object[] { idbill, idProduct });
+        }
+        public static void DeleteChiTietBillByBillID(int idBill)
+        {
+            DataProvider.Instance.ExcuteNonQuery("DELETE FROM CHITIETHOADON WHERE MAHOADON = @idBill", new object[] { idBill });
         }
     }
 }

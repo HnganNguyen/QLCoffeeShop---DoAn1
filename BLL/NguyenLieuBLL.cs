@@ -26,6 +26,10 @@ namespace BLL
             NguyenLieuDAL.UpdateNguyenLieu(nl);
             return GetAllNguyenLieu(); // Trả về danh sách mới sau khi cập nhật
         }
+        public static bool EditNguyenLieu(NguyenLieuDTO nl)
+        {
+            return NguyenLieuDAL.EditNguyenLieu(nl);
+        }
 
         public static List<NguyenLieuDTO> DeleteNguyenLieu(int ma)
         {
