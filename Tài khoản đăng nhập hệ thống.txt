@@ -1,0 +1,2 @@
+Admin: 	Mã tài khoản : 111, Mật khẩu:123
+Nhân viên: Mã tài khoản: 112233, Mật khẩu: 1234
