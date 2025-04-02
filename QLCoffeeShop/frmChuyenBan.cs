@@ -38,15 +38,11 @@ namespace QLCoffeeShop
             cbx.DataSource = list;
             cbx.DisplayMember = display;
             cbx.ValueMember = value;
-
         }
-
-
         private void frmChuyenBan_Load(object sender, EventArgs e)
         {
                 
         }
-
         private void btnNextOne_Click(object sender, EventArgs e)
         {
             int idTableFrom = (int)cbxTableFrom.SelectedValue;
@@ -97,12 +93,10 @@ namespace QLCoffeeShop
             _loadBillInTextBox(txtBillTo, idTableTo);
             // Close the current form
 
-
             // Reload the tables in the parent form
             _parentForm.LoadTable();
             this.Close();
         }
-
         private void btnThoatoder_Click(object sender, EventArgs e)
         {
             this.Close();

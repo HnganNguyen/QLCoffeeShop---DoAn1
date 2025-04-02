@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using DTO;
 using BLL;
 using System;
+using System.Linq;
 
 namespace QLCoffeeShop
 {
@@ -217,24 +218,19 @@ namespace QLCoffeeShop
         {
             TableDTO table = lstBill.Tag as TableDTO;
 
-
             int idBill = BillBLL.GetIDBillNoPaymentByIDTable(table.ID);//lấy lên cái mã id của hóa đơn 
 
-            // int idProduct = (cbProduct. SelectedItem as ProductDTO).ID;//thêm vào 1 gridview để hiển thị
+            //int idProduct = (cbLoaiThucUong.SelectedItem as ProductDTO).ID;//thêm vào 1 gridview để hiển thị
             int idProduct = Product.ID;
             int quantity = 1;
             //kiểm tra hóa đơn có chưa hay
             if (idBill == -1)//nếu chưa thì tạo 1 hóa đơn mới với mã hóa đơn
             {
-                quantity = ChiTietBillBLL.GetSoLuongSanPham(idBill, idProduct);
-                // sau khi tạo xong 1 hóa đơn mới thì thêm vào bảng chi tiết hóa đơn với các trường tương ứng
-                ChiTietBillBLL.InsertChiTietBill(BillBLL.GetIDBillMax(), idProduct, quantity + 1);
+                BillBLL.InsertBill(DateTime.Now, 0.0, Program.sTaiKhoan.ID, table.ID);
+                idBill = BillBLL.GetIDBillMax();
             }
-            else//nếu đã có thì thêm nó vào cái cá bảng chi tiêt hóa đơn với các trường là mã hóa đơn, mã thức uống và số lượng
-            {
-                quantity = ChiTietBillBLL.GetSoLuongSanPham(idBill, idProduct);
-                ChiTietBillBLL.InsertChiTietBill(idBill, idProduct, quantity + 1);
-            }
+            quantity = ChiTietBillBLL.GetSoLuongSanPham(idBill, idProduct);
+            ChiTietBillBLL.InsertChiTietBill(idBill, idProduct, quantity + 1);
             return table;
         }
 
@@ -400,6 +396,7 @@ namespace QLCoffeeShop
                 item.SubItems.Add(product.NameProducts);
                 item.SubItems.Add(product.SalePrice.ToString("0,0 VNĐ"));
                 item.SubItems.Add(TypeProductBLL.GetTypeNameByID(product.IDTypeProduct));
+                item.Tag = product; // 
                 lstSanPham.Items.Add(item);
                 stt++;
             }
@@ -410,6 +407,7 @@ namespace QLCoffeeShop
             string keyword = txtTuKhoa.Text.Trim();
             _searchProductOder(keyword);
             txtTuKhoa.Clear();
+
         }
 
         private void btnLamMoisp_Click(object sender, EventArgs e)
@@ -427,6 +425,16 @@ namespace QLCoffeeShop
 
         private void btnChuyenBan_Click(object sender, EventArgs e)
         {
+            // Kiểm tra nếu tất cả các bàn đều trống
+            List<TableDTO> tableList = TableBLL.GetAllListTable();
+            bool allTablesEmpty = tableList.All(t => t.Status == 0);
+
+            if (allTablesEmpty)
+            {
+                MessageBox.Show("Tất cả các bàn đều trống. Không thể chuyển bàn.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             frmChuyenBan frm = new frmChuyenBan(this);
             frm.ShowDialog();
         }

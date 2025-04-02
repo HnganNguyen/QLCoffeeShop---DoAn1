@@ -14,7 +14,6 @@ namespace QLCoffeeShop
 {
     public partial class Frm_ThanhToan : Form
     {
-
             private int _MaHD;
             private TableDTO _tableDTO;
             private double _tongTien;
@@ -38,7 +37,6 @@ namespace QLCoffeeShop
         private void UpdateThanhTienvsTienTon()
         {
             double giauudai, tongtien, stk, thanhtien, tienton;
-
             // Chuyển đổi an toàn
             if (!double.TryParse(txtGiaUuDai.Text.Replace(",", "").Trim(), out giauudai))
                 giauudai = 0;
@@ -115,7 +113,6 @@ namespace QLCoffeeShop
                         txtTienTon.Text,  // Đã sửa lỗi sai số tiền thối lại
                         String.Format("{0:0,0}", thanhtien), true);
                     rptThanhToan.ShowDialog();
-
                     // Cập nhật hóa đơn vào CSDL
                     BillBLL.UpdatetBill(_MaHD, tongtien, giauudai, stk, tienton, thanhtien, Time, Program.sTaiKhoan.ID);
                     TableBLL.UpdateStatusTable(0, _tableDTO.ID);
